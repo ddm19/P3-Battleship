@@ -1,6 +1,6 @@
-package model;
+package model; 
 
-public class Coordinate 
+public class Coordinate //Constructor
 {
 	
 	int components[];
@@ -11,7 +11,7 @@ public class Coordinate
 		dim=2;
 		components = new int[dim];
 		components[0]=x;
-		components[1]=y;
+		components[1]=y; 
 	}
 	
 	public Coordinate(Coordinate c)
