@@ -8,6 +8,8 @@ public class MainP1 {
 
 	public static void main(String[] args) {
 		
+		//Creamos Coordinates
+		
         Coordinate c1 = new Coordinate(0,0);
 	    Coordinate c2 = new Coordinate(10,10);
 	    Coordinate c3 = new Coordinate(4,3);
