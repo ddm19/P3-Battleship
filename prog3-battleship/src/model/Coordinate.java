@@ -1,25 +1,24 @@
 package model; 
 
+import java.util.Arrays;
+
 public class Coordinate //Constructor
 {
 	
-	int components[];
-	int dim;
+	private int components[];
 	
 	public Coordinate(int x, int y)
 	{
-		dim=2;
-		components = new int[dim];
+		components = new int[2];
 		components[0]=x;
 		components[1]=y; 
 	}
 	
 	public Coordinate(Coordinate c)
 	{
-		dim=2;
-		components = new int[dim];
+		components = new int[2];
 		
-		for(int i = 0; i<dim ;i++)
+		for(int i = 0; i<components.length ;i++)
 		{
 			components[i]=c.components[i];
 		}
@@ -28,31 +27,25 @@ public class Coordinate //Constructor
 	
 	public int get(int component)
 	{
-		if (component>=0 && component<dim)
+		if (component>=0 && component<components.length)
 		{
 			return components[component];
 		}
 		else
-			System.out.println("Error in Coordinate.get, component "+component+" is out of range");
+			System.err.println("Error in Coordinate.get, component "+component+" is out of range");
 
 		return -1;
 		
 	}
-	public boolean equals(final Coordinate c)
-	{
-		for (int i=0;i<dim;i++)
-			if (components[i] != c.components[i]) return false;
-		return true;
-		
-	}
+
 	public String toString()
 	{
 		StringBuilder concatenation = new StringBuilder();
 		concatenation.append("(");
-		for (int i=0;i<dim;i++)
+		for (int i=0;i<components.length;i++)
 		{
 			concatenation.append(components[i]);
-			if (i<dim-1) // no es la última
+			if (i<components.length-1) // no es la última
 				concatenation.append(",");
 		}
 		concatenation.append(")");
@@ -61,7 +54,7 @@ public class Coordinate //Constructor
 	public Coordinate add(final Coordinate c) 
 	{
 		Coordinate new_c = new Coordinate(this);
-		for (int i=0; i<dim; i++)
+		for (int i=0; i<components.length; i++)
 			new_c.set(i, new_c.get(i) + c.get(i));
                 
 		return new_c;
@@ -70,19 +63,41 @@ public class Coordinate //Constructor
 	{
 		Coordinate new_c = new Coordinate(this); 
         
-		for (int i=0; i<dim; i++)
+		for (int i=0; i<components.length; i++)
 			new_c.set(i, new_c.get(i) - c.get(i));        
 		return new_c;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(components);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Coordinate other = (Coordinate) obj;
+		if (!Arrays.equals(components, other.components))
+			return false;
+		return true;
+	}
+
 	protected void set(int component,int value)
 	{
 		
-		if (component>=0 && component<dim) {
+		if (component>=0 && component<components.length) {
 			components[component] = value;
 		}
 		else
-			System.out.println("Error in Coordinate.set, component "+component+" is out of range");
+			System.err.println("Error in Coordinate.set, component "+component+" is out of range");
 			}
 };
 

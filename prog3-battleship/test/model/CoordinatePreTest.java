@@ -63,6 +63,7 @@ public class CoordinatePreTest {
 	 */
 	@Test
 	public void testCoordinateConstructorCopy() {
+		
 		fail("Realiza el tes del constructor copia");
 	}
 
@@ -89,21 +90,27 @@ public class CoordinatePreTest {
 	public void testAdd() {
 		Coordinate caux1 = lcoor.get(0);
 		Coordinate caux2;
+		Coordinate caux3=new Coordinate(lcoor.get(0));
 		
 		int sumx = caux1.get(0);
 		int sumy = caux1.get(1);
 		for (int i=0; i<DIM-2; i++) {	
-		   caux2 = caux1;
-		   caux1 = caux1.add(lcoor.get(i+1));	  
+		   caux2 = caux1;	   
+		   caux1 = caux1.add(lcoor.get(i+1));	
 		   sumx += (vcoor[i+1]);
 		   sumy += (vcoor[i+2]);
+		   caux3.set(0,sumx);
+		   caux3.set(1,sumy);
+		   assertEquals(caux1,caux3); //- que sumx y sumy son iguales a los componentes '0' y '1' respectivamente de caux1.
+		  
+		   assertFalse(caux1.equals(caux2)); //que el Coordinate que devuelve 'add' no es el mismo que el Coordinate que invocó al método.
 		   /*Usa aquí los métodos de junit adecuados para comprobar:
 		    * - que sumx y sumy son iguales a los componentes '0' y '1' 
 		    *   respectivamente de caux1.
 		    * - que el Coordinate que devuelve 'add' no es el mismo que
 	        *   el Coordinate que invocó al método.
 		    */
-		   fail ("Realiza las comprobaciones sugeridas anteriormente");
+		   //fail ("Realiza las comprobaciones sugeridas anteriormente");
 		}
 	}
 
@@ -114,6 +121,8 @@ public class CoordinatePreTest {
 	 */
 	@Test
 	public void testSubtract() {
+		
+		
 		fail("Realiza la resta de los Coordinate propuesta");
 	}
 
@@ -136,10 +145,18 @@ public class CoordinatePreTest {
 	public void testEqualsObject() {
 		Object obj = new String("(0, 0)");
 		Coordinate c = lcoor.get(0);
+		Coordinate h = c;
+		Coordinate d = lcoor.get(1);
 		// equals() devuelve falso cuando le paso null
 		assertFalse(c.equals(null));
 		// equals() devuelve falso cuando le paso un objeto que no es de tipo Coordinate
 		assertFalse(c.equals(obj));
+		//equals() devuelve false cuando el valor de alguno de los componentes de los Coordinate es distinto
+		assertFalse(c.equals(d));
+		//equals() devuelve true cuando se compara un objeto Coordinate consigo mismo
+		assertEquals(c,c);
+		// equals() devuelve true cuando comparo dos objetos Coordinate distintos y los valores de sus componentes respectivos son iguales.
+		assertEquals(c,h);
 		
 		/* Sigue comprobando lo siguiente:
 		 *  1. equals() devuelve false cuando el valor de alguno de los componentes de los 
@@ -148,7 +165,7 @@ public class CoordinatePreTest {
 		 *  3. equals() devuelve true cuando comparo dos objetos Coordinate distintos
 		 *     y los valores de sus componentes respectivos son iguales.
 		 */
-		fail ("Completa el test equals()");
+		//fail ("Completa el test equals()");
 	}
 
 }
