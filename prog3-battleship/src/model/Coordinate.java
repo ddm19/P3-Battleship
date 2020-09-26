@@ -1,12 +1,22 @@
 package model; 
-
-import java.util.Arrays;
-
+import java.util.Arrays;S
+/**
+ * The Class Coordinate.
+ * 
+ * @author Daniel Domenech Moreno ddm19 - 54207039H
+ */
 public class Coordinate //Constructor
 {
 	
+	/** The components. */
 	private int components[];
 	
+	/**
+	 * Instantiates a new coordinate.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public Coordinate(int x, int y)
 	{
 		components = new int[2];
@@ -14,6 +24,11 @@ public class Coordinate //Constructor
 		components[1]=y; 
 	}
 	
+	/**
+	 * Instantiates a new coordinate.
+	 *
+	 * @param c the c
+	 */
 	public Coordinate(Coordinate c)
 	{
 		components = new int[2];
@@ -25,6 +40,12 @@ public class Coordinate //Constructor
 		
 	}
 	
+	/**
+	 * Gets the.
+	 *
+	 * @param component the component
+	 * @return the int
+	 */
 	public int get(int component)
 	{
 		if (component>=0 && component<components.length)
@@ -38,6 +59,11 @@ public class Coordinate //Constructor
 		
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	public String toString()
 	{
 		StringBuilder concatenation = new StringBuilder();
@@ -46,11 +72,18 @@ public class Coordinate //Constructor
 		{
 			concatenation.append(components[i]);
 			if (i<components.length-1) // no es la última
-				concatenation.append(",");
+				concatenation.append(", ");
 		}
 		concatenation.append(")");
 		return concatenation.toString();
 	}
+	
+	/**
+	 * Adds the.
+	 *
+	 * @param c the c
+	 * @return the coordinate
+	 */
 	public Coordinate add(final Coordinate c) 
 	{
 		Coordinate new_c = new Coordinate(this);
@@ -59,7 +92,14 @@ public class Coordinate //Constructor
                 
 		return new_c;
 	}
-	public final Coordinate substract(final Coordinate c) 
+	
+	/**
+	 * Subtract.
+	 *
+	 * @param c the c
+	 * @return the coordinate
+	 */
+	public final Coordinate subtract(final Coordinate c) 
 	{
 		Coordinate new_c = new Coordinate(this); 
         
@@ -68,6 +108,11 @@ public class Coordinate //Constructor
 		return new_c;
 	}
 	
+	/**
+	 * Hash code.
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -76,6 +121,12 @@ public class Coordinate //Constructor
 		return result;
 	}
 
+	/**
+	 * Equals.
+	 *
+	 * @param obj the obj
+	 * @return true, if successful
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -90,6 +141,12 @@ public class Coordinate //Constructor
 		return true;
 	}
 
+	/**
+	 * Sets the.
+	 *
+	 * @param component the component
+	 * @param value the value
+	 */
 	protected void set(int component,int value)
 	{
 		

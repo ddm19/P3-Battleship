@@ -64,6 +64,8 @@ public class CoordinatePreTest {
 	@Test
 	public void testCoordinateConstructorCopy() {
 		
+		
+		
 		fail("Realiza el tes del constructor copia");
 	}
 
@@ -73,12 +75,21 @@ public class CoordinatePreTest {
 	 * método set(int, int) y comprobar con get(int) que los valores de sus 
 	 * componentes han cambiado a dichos valores.
 	 */
-	@Test
+	@Test //Se crean las Coordinates (0,0),(0,-70), (-70,-2),(-2,20);
 	public void testGetSet() {
-		Coordinate c = lcoor.get(2);
-		assertEquals("x==-70", -70, c.get(0));
-		assertEquals("x==-2", -2, c.get(1));
-		fail ("Modifica los valores de los componentes de 'c' y comprueba que se han modificado");
+		Coordinate c=null;
+		for (int i = 0 ; i<lcoor.size();i++)
+		{
+			c = lcoor.get(i);
+			assertEquals(vcoor[i], c.get(0));
+			assertEquals(vcoor[i+1], c.get(1));
+		}
+		c.set(0,-30);
+		c.set(1, 3);
+		assertEquals(-30, c.get(0));
+		assertEquals(3, c.get(1));
+		
+	//	fail ("Modifica los valores de los componentes de 'c' y comprueba que se han modificado");
 	}
 
 	/* Se suman las Coordinate creadas en el setUp() y comprueba, conforme se van 
@@ -90,7 +101,7 @@ public class CoordinatePreTest {
 	public void testAdd() {
 		Coordinate caux1 = lcoor.get(0);
 		Coordinate caux2;
-		Coordinate caux3=new Coordinate(lcoor.get(0));
+		Coordinate caux3=new Coordinate(lcoor.get(0)); 
 		
 		int sumx = caux1.get(0);
 		int sumy = caux1.get(1);
@@ -121,9 +132,26 @@ public class CoordinatePreTest {
 	 */
 	@Test
 	public void testSubtract() {
+		Coordinate caux1 = lcoor.get(0);
+		Coordinate caux2;								//Creo un objeto auxiliar para comprobar #1
+		Coordinate caux3=new Coordinate(lcoor.get(0));	//Creo un objeto auxiliar para comprobar #2
 		
-		
-		fail("Realiza la resta de los Coordinate propuesta");
+		int restx = caux1.get(0);
+		int resty = caux1.get(1);
+		for (int i=0; i<DIM-2; i++) {	
+		   caux2 = caux1;	   
+		   caux1 = caux1.subtract(lcoor.get(i+1));	
+		   restx -= (vcoor[i+1]); 
+		   resty -= (vcoor[i+2]);
+		   caux3.set(0,restx);	// Igualo restx y resty al objeto auxiliar para compararlos posteriormente
+		   caux3.set(1,resty);
+		   
+		   assertEquals(caux1,caux3); //#2 que sumx y sumy son iguales a los componentes '0' y '1' respectivamente de caux1.
+		  
+		   assertFalse(caux1.equals(caux2)); //#1 que el Coordinate que devuelve 'subtract' no es el mismo que el Coordinate que invocó al método.
+		  
+		//fail("Realiza la resta de los Coordinate propuesta");
+		}
 	}
 
 	
