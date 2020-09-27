@@ -64,9 +64,15 @@ public class CoordinatePreTest {
 	@Test
 	public void testCoordinateConstructorCopy() {
 		
+		for(int i = 0; i<DIM-1; i++)
+		{
+			Coordinate c1 = new Coordinate(vcoor[i],vcoor[i+1]);
+			Coordinate c2 = new Coordinate(c1);
+			assertEquals(c1,c2);
+		}
 		
 		
-		fail("Realiza el tes del constructor copia");
+		//fail("Realiza el tes del constructor copia");
 	}
 
 	/* Se comprueba que el método get(int) para cada componente de una Coordinate 

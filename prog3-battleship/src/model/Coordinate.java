@@ -1,5 +1,5 @@
 package model; 
-import java.util.Arrays;S
+import java.util.Arrays;
 /**
  * The Class Coordinate.
  * 
