@@ -1,5 +1,5 @@
 package model; 
-import java.util.Arrays;
+import java.util.*;
 /**
  * The Class Coordinate.
  * 
@@ -155,7 +155,39 @@ public class Coordinate //Constructor
 		}
 		else
 			System.err.println("Error in Coordinate.set, component "+component+" is out of range");
+	}
+	
+	public Coordinate copy()
+	{
+		return new Coordinate(this);
+	}
+	
+	public Set<Coordinate> adjacentCoordinates()
+	{
+		Set<Coordinate> adjacintos = new HashSet<Coordinate>();	//Creo un Set de adyacentes
+		Coordinate aux = new Coordinate(-99,-99);
+		int x,y;
+		
+		x=this.get(0);
+		y=this.get(1);
+		
+		for(int i = -1; i<=1 ; i++)	//Recorre Filas
+		{
+			for(int j = -1; i<=1 ; j++)	//Recorre Columnas
+			{
+				x=this.get(x+i);	// Guardo la coordenada x+fila
+				y=this.get(y+j);	//uardo la coordenada y+columna
+				aux.set(0,x);
+				aux.set(1,y);
+				if(!this.equals(aux))
+					adjacintos.add(aux);
 			}
+			
+				
+		}
+	return adjacintos;
+	}
+	
 };
 
 	
