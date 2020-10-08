@@ -180,7 +180,7 @@ public class Coordinate //Constructor
 				aux.set(0,x);
 				aux.set(1,y);
 				if(!this.equals(aux))
-					adjacintos.add(aux);
+					adjacintos.add(new Coordinate(aux));
 			}
 			
 				
