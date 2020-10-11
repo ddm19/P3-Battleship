@@ -48,26 +48,68 @@ public class Ship {
 	public Coordinate getPosition() { return new Coordinate(position);}
 
 
-
 	public void setPosition(Coordinate position) {
 		Coordinate position2 = new Coordinate(position);	//Copia defensiva para evitar cambios en las referencias a objetos
 		this.position = position2;
 	}
 
-
-
 	public String getName() { return null; }
 	
-	public Orientation getOrientation( ) { return null; }
+	public Orientation getOrientation( ) { return orientation; }
 	
 	public char getSymbol() { return 'a'; }
 	
+		
+	public int[][] getShape() { return shape; }
+	
 	public int numorientacion()
 	{
+		int ori=-1;
+		Orientation o = getOrientation();
+		switch (o) 
+		{
+			case NORTH:
+				ori = 0;
+				break;
+			case EAST:
+				ori = 1;
+				break;
+			case SOUTH:
+				ori = 2;
+				break;
+			case WEST:
+				ori = 3;
+				break;
+		}
+		return ori;
+			
 		
 	}
+
+	/*public Set<Coordinate> cogeposiciones() // Devuelve un Set
+	{
+		Coordinate aux = new Coordinate (-1,-1);
+		int shapecoge[][] = getShape();
+		int numshape = -1,ori = numorientacion();
+		for(int i = 0; i<BOUNDING_SQUARE_SIZE ;i++)
+		{
+			for(int j = 0; j<BOUNDING_SQUARE_SIZE ;i++)
+			{
+				aux.set(0, i);
+				aux.set(1, j);
+				numshape= getShapeIndex(aux);
+				if(shapecoge[ori][numshape]==CRAFT_VALUE)
+				{
+					aux.add(c);
+					Posiciones.add(new Coordinate(aux));
+				}
+			}
+		}
+	}*/
 	
-	public int[][] getShape() { return shape; }
+	public void setShape(int[][] shape) {
+		this.shape = shape;
+	}
 
 	public int getShapeIndex(Coordinate c)
 	{
@@ -76,14 +118,14 @@ public class Ship {
 		
 		return y*BOUNDING_SQUARE_SIZE+x;
 	}
-	
-	public Set<Coordinate> getAbsolutePositions(Coordinate c) 
+		
+	public Set<Coordinate> getposiciones(int shapeget[][] ,int tipo, Coordinate c)
 	{
-		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
-		int ori=-1,numshape=-1;
+		Set<Coordinate> posis = new HashSet<Coordinate>();
+		
+		int ori=numorientacion(),numshape=-1;
 		Coordinate aux= new Coordinate(-1,-1);
-		int shape2[][] = getShape();
-				
+		
 		for(int i = 0; i<BOUNDING_SQUARE_SIZE ;i++)
 		{
 			for(int j = 0; j<BOUNDING_SQUARE_SIZE ;i++)
@@ -91,7 +133,35 @@ public class Ship {
 				aux.set(0, i);
 				aux.set(1, j);
 				numshape= getShapeIndex(aux);
-				if(shape2[ori][numshape]==CRAFT_VALUE)
+				if(shapeget[ori][numshape]==tipo)
+				{
+					aux.add(c);
+					posis.add(new Coordinate(aux));
+				}
+			}
+		}
+	
+		return posis;
+	}
+	
+	public Set<Coordinate> getAbsolutePositions(Coordinate c) // Devuelve un Set con las coordenadas en el tablero de una coordenada de un barco (Los 1 y -1 del Barco)
+	{
+		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
+		int ori=numorientacion(),numshape=-1;
+		Coordinate aux= new Coordinate(-1,-1);
+		int shape2[][] = getShape();
+				
+		//Posiciones=getposiciones(shape2,CRAFT_VALUE,c)
+		
+		
+		for(int i = 0; i<BOUNDING_SQUARE_SIZE ;i++)
+		{
+			for(int j = 0; j<BOUNDING_SQUARE_SIZE ;i++)
+			{
+				aux.set(0, i);
+				aux.set(1, j);
+				numshape= getShapeIndex(aux);
+				if(shape2[ori][numshape]==CRAFT_VALUE || shape2[ori][numshape]==HIT_VALUE)
 				{
 					aux.add(c);
 					Posiciones.add(new Coordinate(aux));
@@ -103,7 +173,7 @@ public class Ship {
 		return Posiciones;
 	}
 	
-	public Set<Coordinate> getAbsolutePositions() 
+	public Set<Coordinate> getAbsolutePositions() //Igual que getabsolutepositions pero con las coordenadas del barco
 	{
 		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
 		Coordinate pbarco = getPosition();
@@ -124,23 +194,47 @@ public class Ship {
 
 	public boolean hit(Coordinate c)
 	{
-		//boolean alcanzado=false;
+		Set<Coordinate> posisbarco = new HashSet <Coordinate>(getAbsolutePositions());	// Creo un Set con los 1 en el mapa del barco
+		int shapehit[][] = getShape();
+		int hitcambio = -1,ori=numorientacion();
+		boolean hiteado = false;
 		
-		//if(c.equals(position)) // Una vez teniendo las coordenadas absolutas (en el tablero) de nuestro barco llamamos a getshapeindex para
-								//acceder a la matriz y ver si es 0,-1 o 1, en caso de que sea 1 lo actualizamos y devolvemos true
+		if(posisbarco.contains(c))	// Si alguna de las coordenadas absolutas del barco contiene un 1 en c, cambiamos ese 1 por -1 y return true
+		{
+			hitcambio = getShapeIndex(c);
+			shapehit[ori][hitcambio] = HIT_VALUE;
+			hiteado = true;
+		}
 		
-		return false;
+		return hiteado;						//if(c.equals(position)) // Una vez teniendo las coordenadas absolutas (en el tablero) 
+											//de nuestro barco llamamos a getshapeindex para
+											//acceder a la matriz y ver si es 0,-1 o 1, en caso de que sea 1 lo actualizamos y devolvemos true
 	}
 	
 	public boolean isShotDown()
-	{
-		return false;
+	{	
+		Set<Coordinate> posisbarco = getAbsolutePositions();
+		boolean hundido = true;
+		Coordinate posis[] = posisbarco.toArray(new Coordinate[posisbarco.size()]); //Transforma posisbarco en un array
+		
+		for(int i = 0; i<posisbarco.size() ; i++)	//para cada posición del barco comprueba que esté tocada (ishit), 
+		{
+			if(!this.isHit(posis[i]))	//Si no lo está, el barco no está hundido
+				hundido=false;
+		}
+		return hundido;
 	}
 	
 	public boolean isHit(Coordinate c)
 	{
-		// función común con hit para devolver que hay en esa coordenada (-1,0 o 1)
-		return false;
+		int shapeishit[][] = getShape();
+		int ori = numorientacion(),index = getShapeIndex(c);
+		boolean hiteado = false;
+		
+		if(shapeishit[ori][index]==1)	// Si en la matriz la coordenada c es un -1 ya ha sido alcanzada
+			hiteado=true;
+		
+		return hiteado;
 	}
 	
 	public String toString()
