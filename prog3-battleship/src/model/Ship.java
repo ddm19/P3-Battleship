@@ -60,7 +60,8 @@ public class Ship {
 	public char getSymbol() { return 'a'; }
 	
 		
-	public int[][] getShape() { return shape; }
+	
+	public int[][] getShape() { return shape.clone(); }
 	
 	public int numorientacion()
 	{
@@ -108,7 +109,7 @@ public class Ship {
 	}*/
 	
 	public void setShape(int[][] shape) {
-		this.shape = shape;
+		this.shape = shape.clone();
 	}
 
 	public int getShapeIndex(Coordinate c)
@@ -117,31 +118,6 @@ public class Ship {
 		int y=c.get(1);
 		
 		return y*BOUNDING_SQUARE_SIZE+x;
-	}
-		
-	public Set<Coordinate> getposiciones(int shapeget[][] ,int tipo, Coordinate c)
-	{
-		Set<Coordinate> posis = new HashSet<Coordinate>();
-		
-		int ori=numorientacion(),numshape=-1;
-		Coordinate aux= new Coordinate(-1,-1);
-		
-		for(int i = 0; i<BOUNDING_SQUARE_SIZE ;i++)
-		{
-			for(int j = 0; j<BOUNDING_SQUARE_SIZE ;i++)
-			{
-				aux.set(0, i);
-				aux.set(1, j);
-				numshape= getShapeIndex(aux);
-				if(shapeget[ori][numshape]==tipo)
-				{
-					aux.add(c);
-					posis.add(new Coordinate(aux));
-				}
-			}
-		}
-	
-		return posis;
 	}
 	
 	public Set<Coordinate> getAbsolutePositions(Coordinate c) // Devuelve un Set con las coordenadas en el tablero de una coordenada de un barco (Los 1 y -1 del Barco)
@@ -204,6 +180,7 @@ public class Ship {
 			hitcambio = getShapeIndex(c);
 			shapehit[ori][hitcambio] = HIT_VALUE;
 			hiteado = true;
+			setShape(shapehit);
 		}
 		
 		return hiteado;						//if(c.equals(position)) // Una vez teniendo las coordenadas absolutas (en el tablero) 
@@ -222,6 +199,7 @@ public class Ship {
 			if(!this.isHit(posis[i]))	//Si no lo está, el barco no está hundido
 				hundido=false;
 		}
+		
 		return hundido;
 	}
 	
@@ -231,7 +209,7 @@ public class Ship {
 		int ori = numorientacion(),index = getShapeIndex(c);
 		boolean hiteado = false;
 		
-		if(shapeishit[ori][index]==1)	// Si en la matriz la coordenada c es un -1 ya ha sido alcanzada
+		if(shapeishit[ori][index]==HIT_VALUE)	// Si en la matriz la coordenada c es un -1 ya ha sido alcanzada
 			hiteado=true;
 		
 		return hiteado;
