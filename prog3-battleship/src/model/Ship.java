@@ -45,6 +45,17 @@ public class Ship {
 		
 	}
 	
+	
+	
+	public Ship(Ship ship) 
+	{
+		orientation=ship.getOrientation();
+		symbol = ship.getSymbol();
+		name = new String(ship.getName());
+	}
+
+
+
 	public Coordinate getPosition() { return new Coordinate(position);}
 
 
@@ -177,7 +188,7 @@ public class Ship {
 		
 		if(posisbarco.contains(c))	// Si alguna de las coordenadas absolutas del barco contiene un 1 en c, cambiamos ese 1 por -1 y return true
 		{
-			hitcambio = getShapeIndex(c);
+			hitcambio = getShapeIndex(c.subtract(getPosition())); //Le pasamos c-la posi del barco para pasar la coord abs del barco y no la relativa
 			shapehit[ori][hitcambio] = HIT_VALUE;
 			hiteado = true;
 			setShape(shapehit);
@@ -206,7 +217,7 @@ public class Ship {
 	public boolean isHit(Coordinate c)
 	{
 		int shapeishit[][] = getShape();
-		int ori = numorientacion(),index = getShapeIndex(c);
+		int ori = numorientacion(),index = getShapeIndex(c.subtract(getPosition()));
 		boolean hiteado = false;
 		
 		if(shapeishit[ori][index]==HIT_VALUE)	// Si en la matriz la coordenada c es un -1 ya ha sido alcanzada
