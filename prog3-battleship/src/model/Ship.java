@@ -8,7 +8,7 @@ public class Ship {
 	private static int HIT_VALUE=-1;
 	private static int CRAFT_VALUE=1;
 	private static char symbol;
-	private static String name;
+	private String name;
 	private int shape[][] = new int[][] {
         { 0, 0, 0, 0, 0,               // NORTH    ·····
           0, 0, 1, 0, 0,               //          ··#··
@@ -64,11 +64,11 @@ public class Ship {
 		this.position = position2;
 	}
 
-	public String getName() { return null; }
+	public String getName() { return name; }
 	
 	public Orientation getOrientation( ) { return orientation; }
 	
-	public char getSymbol() { return 'a'; }
+	public char getSymbol() { return symbol; }
 	
 		
 	
@@ -143,7 +143,7 @@ public class Ship {
 		
 		for(int i = 0; i<BOUNDING_SQUARE_SIZE ;i++)
 		{
-			for(int j = 0; j<BOUNDING_SQUARE_SIZE ;i++)
+			for(int j = 0; j<BOUNDING_SQUARE_SIZE ;j++)
 			{
 				aux.set(0, i);
 				aux.set(1, j);
@@ -169,14 +169,6 @@ public class Ship {
 		
 		
 		return Posiciones;
-	}
-	
-	public static void setSymbol(char symbol) {
-		Ship.symbol = symbol;
-	}
-	
-	public void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
 	}
 
 	public boolean hit(Coordinate c)
@@ -227,7 +219,40 @@ public class Ship {
 	}
 	
 	public String toString()
-	{
-		return null;
+	{		
+		StringBuilder sb=new StringBuilder();
+        int shape2[][]=getShape();
+        int orientacion=numorientacion();
+        sb.append(getName());
+        sb.append("(");
+        sb.append(getOrientation());
+        sb.append(")\n");
+        sb.append(" ");
+        for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
+            sb.append("-");
+        }
+        sb.append("\n");
+        for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
+            sb.append("|");
+            for(int j=0;j<BOUNDING_SQUARE_SIZE;j++) {
+                if(shape2[orientacion][j]==0) {
+                    sb.append(Board.WATER_SYMBOL);
+                }
+                if(shape2[orientacion][j]==CRAFT_VALUE) {
+                    sb.append(getSymbol());
+                }
+                if(shape2[orientacion][j]==HIT_VALUE) {
+                    sb.append(Board.HIT_SYMBOL);
+                }
+            }
+            sb.append("|\n");
+        }
+        sb.append(" ");
+        for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
+            sb.append("-");
+        }
+        sb.append(" ");
+
+        return sb.toString();
 	}
 }

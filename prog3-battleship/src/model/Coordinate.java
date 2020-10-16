@@ -173,12 +173,11 @@ public class Coordinate //Constructor
 		
 		for(int i = -1; i<=1 ; i++)	//Recorre Filas
 		{
-			for(int j = -1; i<=1 ; j++)	//Recorre Columnas
+			for(int j = -1; j<=1 ; j++)	//Recorre Columnas
 			{
-				x=this.get(x+i);	// Guardo la coordenada x+fila
-				y=this.get(y+j);	//uardo la coordenada y+columna
-				aux.set(0,x);
-				aux.set(1,y);
+				
+				aux.set(0,x+i);
+				aux.set(1,y+j);
 				if(!this.equals(aux))
 					adjacintos.add(new Coordinate(aux));
 			}

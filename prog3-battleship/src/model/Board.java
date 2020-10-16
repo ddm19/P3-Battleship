@@ -3,11 +3,11 @@ import java.util.*;
 
 public class Board {
 
-	public static char HIT_SYMBOL;
-	public static char WATER_SYMBOL;
-	public static char NOTSEEN_SYMBOL;
-	private static int MAX_BOARD_SIZE;
-	private static int MIN_BOARD_SIZE;
+	public static char HIT_SYMBOL = '•';
+	public static char WATER_SYMBOL = ' ';
+	public static char NOTSEEN_SYMBOL = '?';
+	private static int MAX_BOARD_SIZE = 20;
+	private static int MIN_BOARD_SIZE = 5;
 	private int size;
 	private int numCrafts;
 	private int destroyedCrafts;
@@ -47,7 +47,7 @@ public class Board {
 	public boolean checkCoordinate(Coordinate c)
 	{
 		boolean dentro=false;
-		int x=c.get(1),y=c.get(2);
+		int x=c.get(0),y=c.get(1);
 		
 		if(x>=0 && y>=0 && x<getSize() && y<getSize() )
 		{
@@ -81,7 +81,7 @@ public class Board {
 		
 		for(int i = 0 ; i<absolutasset.size() ; i++)			// 2. Comprobación Barco Ocupada
 		{
-			if(board.containsKey(absolutas))
+			if(board.containsKey(absolutas[i]))
 				dentro2=false;
 		}
 		
@@ -97,11 +97,12 @@ public class Board {
 			System.out.println("Una de las posiciones está ocupada por otro barco"); //Error2
 		if(!dentro3)
 			System.out.println("Una de las posiciones vecinas está ocupada por otro barco"); //Error3
-		if(!dentro1 && !!dentro2 && !!dentro3)
+		if(dentro1 && dentro2 && dentro3)
 		{
+			numCrafts++;
 			board.put(new Coordinate(position),new Ship(ship));	//Añado el Barco
 			comoHaIdo=true;
-			numCrafts++;
+			
 		}
 		return comoHaIdo;
 	}
@@ -120,14 +121,60 @@ public class Board {
 	{
 		boolean visto = false;
 		
-		if(seen.contains(c);
+		if(seen.contains(c));
 			visto=true;
 		return visto;
 		
 	}
 	
+	private void nuevoVisto(Coordinate c,boolean hundido,Ship barco)
+	{
+		Set<Coordinate> vecinos = getNeighborhood(barco);
+		
+		if(hundido)
+		{
+			vecinos.add(c);		//Añado la coordenada del hit a sus vecinos
+			seen.addAll(vecinos);	//y lo añado todo a seen
+		}
+		else
+			seen.add(c);
+	}
 	public CellStatus hit(Coordinate c)
 	{
+	/* 3 Comprobaciones : 
+	 * 1-Dentro del tablero 
+	 * 2-Si hay o no barco (hit o water) 
+	 * 	2.1- Si hay barco, si está hit o destroyed
+	 */
+		CellStatus estado=CellStatus.WATER;
+		Ship barco = getShip(c);
+		boolean hundido=false;
+		if(checkCoordinate(c))	//1 SI está dentro
+		{
+			
+			if(barco!=null)	//2 SI Hay Barco
+			{
+				if(barco.hit(c)) //Si ship.hit no da problems
+				{
+					if(barco.isShotDown())
+					{
+						estado=CellStatus.DESTROYED; 
+						hundido=true;
+						destroyedCrafts++;
+					}
+					else 
+						estado=CellStatus.HIT;
+					nuevoVisto(c,hundido,barco);	//Añado las coordenadas a seen en función de hundido
+				}
+			}
+			
+		}
+		else //1 NO
+		{
+			System.err.println("Error, La casilla deleccionada está fuera del tablero");
+			
+		}
+		return estado;
 		
 	}
 	
@@ -181,11 +228,54 @@ public class Board {
 	
 	String show(boolean unveil)
 	{
+		String tablero="";		
+		Set<Coordinate> coords = board.keySet();
+		Ship barco=null;
 		
+		for(Coordinate c : coords)	// Recorro todas las Coordenadas del mapa
+		{
+			barco=board.get(c);	//Miro que hay en cada coordenada;
+			
+			if(barco==null) // Si no hay barco (agua)
+			{
+				tablero += WATER_SYMBOL;
+			}
+			else			//Si hay barco Imprimo su símbolo
+			{
+				tablero += barco.getSymbol();
+			}
+		}
+		
+		return tablero;
+		
+		
+	/*	if(unveil)	// Tablero ojos propietario
+		{
+			board.
+		}
+		else		//Tablero ojos enemigo
+		{
+			
+		}
+		*/
+		
+	}
+
+	
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Board ");
+		sb.append(getSize());
+		sb.append("; ");
+		sb.append("crafts: ");
+		sb.append(getNumCrafts());
+		sb.append("; ");
+		sb.append("destroyed: ");
+		sb.append(getDestroyedCrafts());
+		
+		return sb.toString();
 	}
 	
-	String toString()
-	{
-		
-	}
 }
