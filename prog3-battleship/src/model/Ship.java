@@ -7,7 +7,7 @@ public class Ship {
 	private static int BOUNDING_SQUARE_SIZE=5;
 	private static int HIT_VALUE=-1;
 	private static int CRAFT_VALUE=1;
-	private static char symbol;
+	private char symbol;
 	private String name;
 	private int shape[][] = new int[][] {
         { 0, 0, 0, 0, 0,               // NORTH    ·····
@@ -56,7 +56,12 @@ public class Ship {
 
 
 
-	public Coordinate getPosition() { return new Coordinate(position);}
+	public Coordinate getPosition() { 
+		Coordinate c = null;
+	
+	if(position!=null)
+		c = position.copy();
+		return c; }
 
 
 	public void setPosition(Coordinate position) {
@@ -150,11 +155,14 @@ public class Ship {
 				numshape= getShapeIndex(aux);
 				if(shape2[ori][numshape]==CRAFT_VALUE || shape2[ori][numshape]==HIT_VALUE)
 				{
-					aux.add(c);
+					aux=aux.add(c);
 					Posiciones.add(new Coordinate(aux));
+				
 				}
 			}
 		}
+		
+
 		
 		
 		return Posiciones;
@@ -165,7 +173,8 @@ public class Ship {
 		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
 		Coordinate pbarco = getPosition();
 		
-		Posiciones=getAbsolutePositions(pbarco);
+		if(pbarco!=null)
+			Posiciones=getAbsolutePositions(pbarco);
 		
 		
 		return Posiciones;
@@ -178,9 +187,10 @@ public class Ship {
 		int hitcambio = -1,ori=numorientacion();
 		boolean hiteado = false;
 		
-		if(posisbarco.contains(c))	// Si alguna de las coordenadas absolutas del barco contiene un 1 en c, cambiamos ese 1 por -1 y return true
+		if(posisbarco.contains(c) && !isHit(c))	// Si alguna de las coordenadas absolutas del barco contiene un 1 en c, cambiamos ese 1 por -1 y return true
 		{
-			hitcambio = getShapeIndex(c.subtract(getPosition())); //Le pasamos c-la posi del barco para pasar la coord abs del barco y no la relativa
+			c = c.subtract(getPosition());
+			hitcambio = getShapeIndex(c); //Le pasamos c-la posi del barco para pasar la coord abs del barco y no la relativa
 			shapehit[ori][hitcambio] = HIT_VALUE;
 			hiteado = true;
 			setShape(shapehit);
@@ -209,7 +219,8 @@ public class Ship {
 	public boolean isHit(Coordinate c)
 	{
 		int shapeishit[][] = getShape();
-		int ori = numorientacion(),index = getShapeIndex(c.subtract(getPosition()));
+		c = c.subtract(getPosition());
+		int ori = numorientacion(),index = getShapeIndex(c);
 		boolean hiteado = false;
 		
 		if(shapeishit[ori][index]==HIT_VALUE)	// Si en la matriz la coordenada c es un -1 ya ha sido alcanzada
@@ -223,8 +234,9 @@ public class Ship {
 		StringBuilder sb=new StringBuilder();
         int shape2[][]=getShape();
         int orientacion=numorientacion();
+        int contador = 0;
         sb.append(getName());
-        sb.append("(");
+        sb.append(" (");
         sb.append(getOrientation());
         sb.append(")\n");
         sb.append(" ");
@@ -235,15 +247,16 @@ public class Ship {
         for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
             sb.append("|");
             for(int j=0;j<BOUNDING_SQUARE_SIZE;j++) {
-                if(shape2[orientacion][j]==0) {
+                if(shape2[orientacion][contador]==0) {
                     sb.append(Board.WATER_SYMBOL);
                 }
-                if(shape2[orientacion][j]==CRAFT_VALUE) {
+                if(shape2[orientacion][contador]==CRAFT_VALUE) {
                     sb.append(getSymbol());
                 }
-                if(shape2[orientacion][j]==HIT_VALUE) {
+                if(shape2[orientacion][contador]==HIT_VALUE) {
                     sb.append(Board.HIT_SYMBOL);
                 }
+                contador++;
             }
             sb.append("|\n");
         }
@@ -251,7 +264,7 @@ public class Ship {
         for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
             sb.append("-");
         }
-        sb.append(" ");
+        
 
         return sb.toString();
 	}

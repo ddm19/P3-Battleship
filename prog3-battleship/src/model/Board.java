@@ -12,7 +12,7 @@ public class Board {
 	private int numCrafts;
 	private int destroyedCrafts;
 	private Map<Coordinate,Ship> board;
-	private Set<Coordinate> seen;
+	private Set<Coordinate> seen = new HashSet<Coordinate>();
 	
 	
 	
@@ -27,13 +27,13 @@ public class Board {
 	public Board(int size)	//DONE
 	{
 		board=new HashMap<Coordinate,Ship>();
-		seen=new TreeSet<Coordinate>();
+		seen=new HashSet<Coordinate>();
 		numCrafts=0;
 		destroyedCrafts=0;
 		
 		if(size<=MAX_BOARD_SIZE && size>=MIN_BOARD_SIZE)
 		{
-			this.size=size;
+			this.size=new Integer(size);
 		}
 		else
 		{
@@ -42,7 +42,7 @@ public class Board {
 		}
 	}
 	
-	public int getSize() { return size; }
+	public int getSize() { return new Integer(size); }
 	
 	public boolean checkCoordinate(Coordinate c)
 	{
@@ -100,7 +100,16 @@ public class Board {
 		if(dentro1 && dentro2 && dentro3)
 		{
 			numCrafts++;
-			board.put(new Coordinate(position),new Ship(ship));	//Añado el Barco
+			for(int i = 0;i<absolutas.length;i++)
+			{
+				board.put(new Coordinate(absolutas[i]),new Ship(ship));	//Añado el Barco
+				/*System.out.print(i);
+				System.out.print(" ");
+				System.out.print(absolutas[i].get(0));
+				System.out.println(absolutas[i].get(1));*/
+				
+			}
+			ship.setPosition(new Coordinate(position));
 			comoHaIdo=true;
 			
 		}
@@ -112,7 +121,7 @@ public class Board {
 		Ship s=null;
 		
 		if(board.containsKey(c))	// 
-			s=board.get(c);
+			s= new Ship(board.get(c));
 		
 		return s;
 	}
@@ -121,16 +130,20 @@ public class Board {
 	{
 		boolean visto = false;
 		
-		if(seen.contains(c));
+		if(seen.contains(c))
 			visto=true;
+			
 		return visto;
 		
 	}
 	
 	private void nuevoVisto(Coordinate c,boolean hundido,Ship barco)
 	{
-		Set<Coordinate> vecinos = getNeighborhood(barco);
-		
+			Set<Coordinate> vecinos = new HashSet<Coordinate>();
+			
+			if(barco!=null)
+				vecinos = getNeighborhood(barco);
+			
 		if(hundido)
 		{
 			vecinos.add(c);		//Añado la coordenada del hit a sus vecinos
@@ -139,6 +152,7 @@ public class Board {
 		else
 			seen.add(c);
 	}
+	
 	public CellStatus hit(Coordinate c)
 	{
 	/* 3 Comprobaciones : 
@@ -164,10 +178,12 @@ public class Board {
 					}
 					else 
 						estado=CellStatus.HIT;
-					nuevoVisto(c,hundido,barco);	//Añado las coordenadas a seen en función de hundido
+					
+					
 				}
+				
 			}
-			
+			nuevoVisto(c,hundido,barco);	//Añado las coordenadas a seen en función de hundido
 		}
 		else //1 NO
 		{
@@ -219,45 +235,63 @@ public class Board {
 	{
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
 		Coordinate c = ship.getPosition();
-		
+	if(c!=null)	
 		vecinos = getNeighborhood(ship,c);
 		
 		return vecinos;
 		
 	}
 	
-	String show(boolean unveil)
+	public String show(boolean unveil)
 	{
 		String tablero="";		
-		Set<Coordinate> coords = board.keySet();
-		Ship barco=null;
+		Coordinate c = new Coordinate(-1,-1);
 		
-		for(Coordinate c : coords)	// Recorro todas las Coordenadas del mapa
+		for(int i = 0 ; i<getSize() ; i++)	// Recorro todas las Coordenadas x del mapa
 		{
-			barco=board.get(c);	//Miro que hay en cada coordenada;
+			for(int j = 0 ; j<getSize() ; j++)	// Recorro todas las Coordenadas y del mapa
+			{
+				c.set(0,j);
+				c.set(1,i);
+				
+				if(unveil)	//TABLERO COMPLETO
+				{					
+					if(board.containsKey(c))				// Si en c hay un barco
+					{
+						if(seen.contains(c))	//Si el adversario la ha visto (alcanzada)
+							tablero += HIT_SYMBOL;
+						else
+							tablero += getShip(c).getSymbol(); // NO Alcanzada -> coloco en el tablero el símbolo del barco
+					}
+					else
+					{
+						tablero += WATER_SYMBOL;
+					}
+											
+				}
+				else // TABLERO ADVERSARIO
+				{
+					if(seen.contains(c))	// Si lo ha visto
+					{
+						if(getShip(c).isShotDown())	// y está hundido
+							tablero += getShip(c).getSymbol();	//Símbolo del barco
+						else 
+							tablero += HIT_SYMBOL;	// NO Hundido-> símbolo de tocado
+					}
+					else					// NO lo ha visto
+						tablero += NOTSEEN_SYMBOL; 	
+				}
+				
+			}
+			if(i<getSize()-1)
+				tablero += '\n';
 			
-			if(barco==null) // Si no hay barco (agua)
-			{
-				tablero += WATER_SYMBOL;
-			}
-			else			//Si hay barco Imprimo su símbolo
-			{
-				tablero += barco.getSymbol();
-			}
+			
 		}
 		
 		return tablero;
 		
 		
-	/*	if(unveil)	// Tablero ojos propietario
-		{
-			board.
-		}
-		else		//Tablero ojos enemigo
-		{
-			
-		}
-		*/
 		
 	}
 
