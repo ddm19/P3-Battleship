@@ -1,29 +1,67 @@
 package model;
 import java.util.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Board.
+ */
 public class Board {
 
+	/** The hit symbol. */
 	public static char HIT_SYMBOL = '•';
+	
+	/** The water symbol. */
 	public static char WATER_SYMBOL = ' ';
+	
+	/** The notseen symbol. */
 	public static char NOTSEEN_SYMBOL = '?';
+	
+	/** The max board size. */
 	private static int MAX_BOARD_SIZE = 20;
+	
+	/** The min board size. */
 	private static int MIN_BOARD_SIZE = 5;
+	
+	/** The size. */
 	private int size;
+	
+	/** The num crafts. */
 	private int numCrafts;
+	
+	/** The destroyed crafts. */
 	private int destroyedCrafts;
+	
+	/** The board. */
 	private Map<Coordinate,Ship> board;
+	
+	/** The seen. */
 	private Set<Coordinate> seen = new HashSet<Coordinate>();
 	
 	
 	
+	/**
+	 * Gets the num crafts.
+	 *
+	 * @return the num crafts
+	 */
 	public int getNumCrafts() {
 		return numCrafts;
 	}
 
+	/**
+	 * Gets the destroyed crafts.
+	 *
+	 * @return the destroyed crafts
+	 */
 	public int getDestroyedCrafts() {
 		return destroyedCrafts;
 	}
 
+	/**
+	 * Instantiates a new board.
+	 *
+	 * @param size the size
+	 */
 	public Board(int size)	//DONE
 	{
 		board=new HashMap<Coordinate,Ship>();
@@ -42,8 +80,19 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Gets the size.
+	 *
+	 * @return the size
+	 */
 	public int getSize() { return new Integer(size); }
 	
+	/**
+	 * Check coordinate.
+	 *
+	 * @param c the c
+	 * @return true, if successful
+	 */
 	public boolean checkCoordinate(Coordinate c)
 	{
 		boolean dentro=false;
@@ -58,6 +107,13 @@ public class Board {
 	}
 	
 	
+	/**
+	 * Adds the ship.
+	 *
+	 * @param ship the ship
+	 * @param position the position
+	 * @return true, if successful
+	 */
 	public boolean addShip(Ship ship,Coordinate position)
 	{
 		//Esquina izquierda superior = (0,0) del shape
@@ -65,11 +121,11 @@ public class Board {
 			//1. checkCoordinate a todas las posis absolutas de position
 			//2. Ver si está la posición ocupada por otro barco
 			//3. getNeighborhood no están ocupadas
-		
+	
 		Set<Coordinate> absolutasset = ship.getAbsolutePositions(position); 
 		Set<Coordinate> vecinos = getNeighborhood(ship,position);
 		Coordinate[] absolutas = absolutasset.toArray(new Coordinate[absolutasset.size()]);
-		Coordinate[] vecinosarr = new Coordinate[vecinos.size()];
+		Coordinate[] vecinosarr = vecinos.toArray(new Coordinate[vecinos.size()]);
 		boolean dentro1 = true,dentro2=true,dentro3=true,comoHaIdo=false;
 		
 		for(int i = 0 ; i<absolutasset.size() ; i++)	// 1. Comprobación de si las posis están dentro
@@ -100,32 +156,48 @@ public class Board {
 		if(dentro1 && dentro2 && dentro3)
 		{
 			numCrafts++;
+			
+			ship.setPosition(new Coordinate(position));
 			for(int i = 0;i<absolutas.length;i++)
 			{
-				board.put(new Coordinate(absolutas[i]),new Ship(ship));	//Añado el Barco
-				/*System.out.print(i);
-				System.out.print(" ");
-				System.out.print(absolutas[i].get(0));
-				System.out.println(absolutas[i].get(1));*/
 				
+				board.put(new Coordinate(absolutas[i]),ship);	//Añado el Barco
 			}
-			ship.setPosition(new Coordinate(position));
+			
+
 			comoHaIdo=true;
 			
 		}
 		return comoHaIdo;
 	}
 	
+	/**
+	 * Gets the ship.
+	 *
+	 * @param c the c
+	 * @return the ship
+	 */
 	public Ship getShip(Coordinate c)
 	{
+		
 		Ship s=null;
 		
 		if(board.containsKey(c))	// 
+		{
 			s= new Ship(board.get(c));
+		}
 		
 		return s;
+		
+			
 	}
 	
+	/**
+	 * Checks if is seen.
+	 *
+	 * @param c the c
+	 * @return true, if is seen
+	 */
 	public boolean isSeen(Coordinate c)
 	{
 		boolean visto = false;
@@ -137,6 +209,13 @@ public class Board {
 		
 	}
 	
+	/**
+	 * Nuevo visto.
+	 *
+	 * @param c the c
+	 * @param hundido the hundido
+	 * @param barco the barco
+	 */
 	private void nuevoVisto(Coordinate c,boolean hundido,Ship barco)
 	{
 			Set<Coordinate> vecinos = new HashSet<Coordinate>();
@@ -153,6 +232,12 @@ public class Board {
 			seen.add(c);
 	}
 	
+	/**
+	 * Hit.
+	 *
+	 * @param c the c
+	 * @return the cell status
+	 */
 	public CellStatus hit(Coordinate c)
 	{
 	/* 3 Comprobaciones : 
@@ -161,17 +246,24 @@ public class Board {
 	 * 	2.1- Si hay barco, si está hit o destroyed
 	 */
 		CellStatus estado=CellStatus.WATER;
-		Ship barco = getShip(c);
+		//Ship barco = getShip(c);
+
+		
 		boolean hundido=false;
+
 		if(checkCoordinate(c))	//1 SI está dentro
 		{
 			
-			if(barco!=null)	//2 SI Hay Barco
+			if(board.containsKey(c))	//2 SI Hay Barco
 			{
-				if(barco.hit(c)) //Si ship.hit no da problems
+				
+				
+				if(board.get(c).hit(c)) //Si ship.hit no da problemas
 				{
-					if(barco.isShotDown())
+					
+					if(board.get(c).isShotDown())
 					{
+						
 						estado=CellStatus.DESTROYED; 
 						hundido=true;
 						destroyedCrafts++;
@@ -183,7 +275,7 @@ public class Board {
 				}
 				
 			}
-			nuevoVisto(c,hundido,barco);	//Añado las coordenadas a seen en función de hundido
+			nuevoVisto(c,hundido,board.get(c));	//Añado las coordenadas a seen en función de hundido
 		}
 		else //1 NO
 		{
@@ -194,6 +286,11 @@ public class Board {
 		
 	}
 	
+	/**
+	 * Are all crafts destroyed.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean areAllCraftsDestroyed() 
 	{
 		boolean destruidos = false;
@@ -204,6 +301,13 @@ public class Board {
 		
 	}
 	
+	/**
+	 * Gets the neighborhood.
+	 *
+	 * @param ship the ship
+	 * @param position the position
+	 * @return the neighborhood
+	 */
 	public Set<Coordinate> getNeighborhood(Ship ship,Coordinate position)
 	{
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
@@ -211,7 +315,8 @@ public class Board {
 		Coordinate arrayabs [] = null;
 		Set<Coordinate> vecinosfinal = new HashSet<Coordinate>();
 		
-		abspos = ship.getAbsolutePositions(position); //Posis del barco
+		if(position!=null)
+			abspos = ship.getAbsolutePositions(position); //Posis del barco
 		
 		arrayabs = abspos.toArray(new Coordinate[abspos.size()]);	//Posis del barco (array)
 		
@@ -231,6 +336,12 @@ public class Board {
 		return vecinosfinal;
 	}
 	
+	/**
+	 * Gets the neighborhood.
+	 *
+	 * @param ship the ship
+	 * @return the neighborhood
+	 */
 	public Set<Coordinate> getNeighborhood(Ship ship)
 	{
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
@@ -242,6 +353,12 @@ public class Board {
 		
 	}
 	
+	/**
+	 * Show.
+	 *
+	 * @param unveil the unveil
+	 * @return the string
+	 */
 	public String show(boolean unveil)
 	{
 		String tablero="";		
@@ -273,10 +390,17 @@ public class Board {
 				{
 					if(seen.contains(c))	// Si lo ha visto
 					{
-						if(getShip(c).isShotDown())	// y está hundido
-							tablero += getShip(c).getSymbol();	//Símbolo del barco
-						else 
-							tablero += HIT_SYMBOL;	// NO Hundido-> símbolo de tocado
+						if(board.containsKey(c))
+						{
+							if(getShip(c).isShotDown())	// y está hundido
+								tablero += getShip(c).getSymbol();	//Símbolo del barco
+							else 
+								tablero += HIT_SYMBOL;	// NO Hundido-> símbolo de tocado
+						}
+						else
+						{
+							tablero += WATER_SYMBOL;
+						}
 					}
 					else					// NO lo ha visto
 						tablero += NOTSEEN_SYMBOL; 	
@@ -296,6 +420,11 @@ public class Board {
 	}
 
 	
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();

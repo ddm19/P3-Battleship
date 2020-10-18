@@ -2,13 +2,28 @@ package model;
 
 import java.util.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Ship.
+ */
 public class Ship {
 	
+	/** The bounding square size. */
 	private static int BOUNDING_SQUARE_SIZE=5;
+	
+	/** The hit value. */
 	private static int HIT_VALUE=-1;
+	
+	/** The craft value. */
 	private static int CRAFT_VALUE=1;
+	
+	/** The symbol. */
 	private char symbol;
+	
+	/** The name. */
 	private String name;
+	
+	/** The shape. */
 	private int shape[][] = new int[][] {
         { 0, 0, 0, 0, 0,               // NORTH    ·····
           0, 0, 1, 0, 0,               //          ··#··
@@ -34,28 +49,50 @@ public class Ship {
           0, 0, 0, 0, 0,               //          ·····
           0, 0, 0, 0, 0}};             //          ·····
           
+	/** The position. */
 	private Coordinate position=null;
+	
+	/** The orientation. */
 	private Orientation orientation;
 	
+	/**
+	 * Instantiates a new ship.
+	 *
+	 * @param o the o
+	 * @param s the s
+	 * @param n the n
+	 */
 	public Ship(Orientation o,char s,String n)	// orientation N/E/S/W - name = nombre del barco - symbol = carácter representativo del barco - position = coords
 	{
 		orientation=o;
 		symbol = s;
 		name = n;
-		
+		position=null;
 	}
 	
 	
 	
+	/**
+	 * Instantiates a new ship.
+	 *
+	 * @param ship the ship
+	 */
 	public Ship(Ship ship) 
 	{
 		orientation=ship.getOrientation();
 		symbol = ship.getSymbol();
 		name = new String(ship.getName());
+		this.setPosition(ship.getPosition());
+		
 	}
 
 
 
+	/**
+	 * Gets the position.
+	 *
+	 * @return the position
+	 */
 	public Coordinate getPosition() { 
 		Coordinate c = null;
 	
@@ -64,21 +101,51 @@ public class Ship {
 		return c; }
 
 
+	/**
+	 * Sets the position.
+	 *
+	 * @param position the new position
+	 */
 	public void setPosition(Coordinate position) {
-		Coordinate position2 = new Coordinate(position);	//Copia defensiva para evitar cambios en las referencias a objetos
-		this.position = position2;
+		if(position!=null)
+			this.position = position.copy();
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() { return name; }
 	
+	/**
+	 * Gets the orientation.
+	 *
+	 * @return the orientation
+	 */
 	public Orientation getOrientation( ) { return orientation; }
 	
+	/**
+	 * Gets the symbol.
+	 *
+	 * @return the symbol
+	 */
 	public char getSymbol() { return symbol; }
 	
 		
 	
+	/**
+	 * Gets the shape.
+	 *
+	 * @return the shape
+	 */
 	public int[][] getShape() { return shape.clone(); }
 	
+	/**
+	 * Numorientacion.
+	 *
+	 * @return the int
+	 */
 	public int numorientacion()
 	{
 		int ori=-1;
@@ -124,10 +191,21 @@ public class Ship {
 		}
 	}*/
 	
+	/**
+	 * Sets the shape.
+	 *
+	 * @param shape the new shape
+	 */
 	public void setShape(int[][] shape) {
 		this.shape = shape.clone();
 	}
 
+	/**
+	 * Gets the shape index.
+	 *
+	 * @param c the c
+	 * @return the shape index
+	 */
 	public int getShapeIndex(Coordinate c)
 	{
 		int x=c.get(0);
@@ -136,6 +214,12 @@ public class Ship {
 		return y*BOUNDING_SQUARE_SIZE+x;
 	}
 	
+	/**
+	 * Gets the absolute positions.
+	 *
+	 * @param c the c
+	 * @return the absolute positions
+	 */
 	public Set<Coordinate> getAbsolutePositions(Coordinate c) // Devuelve un Set con las coordenadas en el tablero de una coordenada de un barco (Los 1 y -1 del Barco)
 	{
 		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
@@ -168,6 +252,11 @@ public class Ship {
 		return Posiciones;
 	}
 	
+	/**
+	 * Gets the absolute positions.
+	 *
+	 * @return the absolute positions
+	 */
 	public Set<Coordinate> getAbsolutePositions() //Igual que getabsolutepositions pero con las coordenadas del barco
 	{
 		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
@@ -180,15 +269,22 @@ public class Ship {
 		return Posiciones;
 	}
 
+	/**
+	 * Hit.
+	 *
+	 * @param c the c
+	 * @return true, if successful
+	 */
 	public boolean hit(Coordinate c)
 	{
-		Set<Coordinate> posisbarco = new HashSet <Coordinate>(getAbsolutePositions());	// Creo un Set con los 1 en el mapa del barco
+		Set<Coordinate> posistrbarcoarco = new HashSet <Coordinate>(getAbsolutePositions());	// Creo un Set con los 1 en el mapa del barco
 		int shapehit[][] = getShape();
 		int hitcambio = -1,ori=numorientacion();
 		boolean hiteado = false;
 		
-		if(posisbarco.contains(c) && !isHit(c))	// Si alguna de las coordenadas absolutas del barco contiene un 1 en c, cambiamos ese 1 por -1 y return true
+		if(posistrbarcoarco.contains(c) && !isHit(c))	// Si alguna de las coordenadas absolutas del barco contiene un 1 en c, cambiamos ese 1 por -1 y return true
 		{
+			
 			c = c.subtract(getPosition());
 			hitcambio = getShapeIndex(c); //Le pasamos c-la posi del barco para pasar la coord abs del barco y no la relativa
 			shapehit[ori][hitcambio] = HIT_VALUE;
@@ -201,21 +297,35 @@ public class Ship {
 											//acceder a la matriz y ver si es 0,-1 o 1, en caso de que sea 1 lo actualizamos y devolvemos true
 	}
 	
+	/**
+	 * Checks if is shot down.
+	 *
+	 * @return true, if is shot down
+	 */
 	public boolean isShotDown()
 	{	
-		Set<Coordinate> posisbarco = getAbsolutePositions();
+		Set<Coordinate> posistrbarcoarco = this.getAbsolutePositions();
 		boolean hundido = true;
-		Coordinate posis[] = posisbarco.toArray(new Coordinate[posisbarco.size()]); //Transforma posisbarco en un array
+		Coordinate posis[] = posistrbarcoarco.toArray(new Coordinate[posistrbarcoarco.size()]); //Transforma posistrbarcoarco en un array
 		
-		for(int i = 0; i<posisbarco.size() ; i++)	//para cada posición del barco comprueba que esté tocada (ishit), 
+		for(int i = 0; i<posistrbarcoarco.size() ; i++)	//para cada posición del barco comprueba que esté tocada (ishit), 
 		{
+			
 			if(!this.isHit(posis[i]))	//Si no lo está, el barco no está hundido
+			{
 				hundido=false;
+			}
 		}
 		
 		return hundido;
 	}
 	
+	/**
+	 * Checks if is hit.
+	 *
+	 * @param c the c
+	 * @return true, if is hit
+	 */
 	public boolean isHit(Coordinate c)
 	{
 		int shapeishit[][] = getShape();
@@ -229,43 +339,48 @@ public class Ship {
 		return hiteado;
 	}
 	
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	public String toString()
 	{		
-		StringBuilder sb=new StringBuilder();
-        int shape2[][]=getShape();
-        int orientacion=numorientacion();
-        int contador = 0;
-        sb.append(getName());
-        sb.append(" (");
-        sb.append(getOrientation());
-        sb.append(")\n");
-        sb.append(" ");
+		StringBuilder strbarco=new StringBuilder();
+        int shapestringer[][]=getShape();
+        int ori=numorientacion();
+        int k = 0;
+        strbarco.append(getName());
+        strbarco.append(" (");
+        strbarco.append(getOrientation());
+        strbarco.append(")\n");
+        strbarco.append(" ");
         for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
-            sb.append("-");
+            strbarco.append("-");
         }
-        sb.append("\n");
+        strbarco.append("\n");
         for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
-            sb.append("|");
+            strbarco.append("|");
             for(int j=0;j<BOUNDING_SQUARE_SIZE;j++) {
-                if(shape2[orientacion][contador]==0) {
-                    sb.append(Board.WATER_SYMBOL);
+                if(shapestringer[ori][k]==0) {
+                    strbarco.append(Board.WATER_SYMBOL);
                 }
-                if(shape2[orientacion][contador]==CRAFT_VALUE) {
-                    sb.append(getSymbol());
+                if(shapestringer[ori][k]==CRAFT_VALUE) {
+                    strbarco.append(getSymbol());
                 }
-                if(shape2[orientacion][contador]==HIT_VALUE) {
-                    sb.append(Board.HIT_SYMBOL);
+                if(shapestringer[ori][k]==HIT_VALUE) {
+                    strbarco.append(Board.HIT_SYMBOL);
                 }
-                contador++;
+                k++;
             }
-            sb.append("|\n");
+            strbarco.append("|\n");
         }
-        sb.append(" ");
+        strbarco.append(" ");
         for(int i=0;i<BOUNDING_SQUARE_SIZE;i++) {
-            sb.append("-");
+            strbarco.append("-");
         }
         
 
-        return sb.toString();
+        return strbarco.toString();
 	}
 }

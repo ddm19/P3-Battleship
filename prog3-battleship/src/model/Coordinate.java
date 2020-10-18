@@ -1,5 +1,6 @@
 package model; 
 import java.util.*;
+// TODO: Auto-generated Javadoc
 /**
  * The Class Coordinate.
  * 
@@ -157,11 +158,21 @@ public class Coordinate //Constructor
 			System.err.println("Error in Coordinate.set, component "+component+" is out of range");
 	}
 	
+	/**
+	 * Copy.
+	 *
+	 * @return the coordinate
+	 */
 	public Coordinate copy()
 	{
 		return new Coordinate(this);
 	}
 	
+	/**
+	 * Adjacent coordinates.
+	 *
+	 * @return the sets the
+	 */
 	public Set<Coordinate> adjacentCoordinates()
 	{
 		Set<Coordinate> adjacintos = new HashSet<Coordinate>();	//Creo un Set de adyacentes
