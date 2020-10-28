@@ -240,7 +240,7 @@ public class Ship {
 				if(shape2[ori][numshape]==CRAFT_VALUE || shape2[ori][numshape]==HIT_VALUE)
 				{
 					aux=aux.add(c);
-					Posiciones.add(new Coordinate(aux));
+					Posiciones.add(aux.copy());
 				
 				}
 			}

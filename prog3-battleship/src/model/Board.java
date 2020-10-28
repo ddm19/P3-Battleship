@@ -157,11 +157,11 @@ public class Board {
 		{
 			numCrafts++;
 			
-			ship.setPosition(new Coordinate(position));
+			ship.setPosition(position.copy());
 			for(int i = 0;i<absolutas.length;i++)
 			{
 				
-				board.put(new Coordinate(absolutas[i]),ship);	//Añado el Barco
+				board.put(absolutas[i].copy(),ship);	//Añado el Barco
 			}
 			
 
@@ -180,14 +180,13 @@ public class Board {
 	public Ship getShip(Coordinate c)
 	{
 		
-		Ship s=null;
 		
 		if(board.containsKey(c))	// 
 		{
-			s= new Ship(board.get(c));
+			return board.get(c);
 		}
 		
-		return s;
+		return null;
 		
 			
 	}
@@ -248,7 +247,7 @@ public class Board {
 		CellStatus estado=CellStatus.WATER;
 		//Ship barco = getShip(c);
 
-		
+		Ship barco = getShip(c);
 		boolean hundido=false;
 
 		if(checkCoordinate(c))	//1 SI está dentro
@@ -258,10 +257,10 @@ public class Board {
 			{
 				
 				
-				if(board.get(c).hit(c)) //Si ship.hit no da problemas
+				if(barco.hit(c)) //Si ship.hit no da problemas
 				{
 					
-					if(board.get(c).isShotDown())
+					if(barco.isShotDown())
 					{
 						
 						estado=CellStatus.DESTROYED; 
@@ -272,10 +271,14 @@ public class Board {
 						estado=CellStatus.HIT;
 					
 					
+				} 
+				else
+				{
+					estado=CellStatus.WATER;
 				}
 				
 			}
-			nuevoVisto(c,hundido,board.get(c));	//Añado las coordenadas a seen en función de hundido
+			nuevoVisto(c,hundido,barco);	//Añado las coordenadas a seen en función de hundido
 		}
 		else //1 NO
 		{

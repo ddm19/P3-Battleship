@@ -6,7 +6,7 @@ import java.util.*;
  * 
  * @author Daniel Domenech Moreno ddm19 - 54207039H
  */
-public class Coordinate //Constructor
+public abstract class Coordinate //Constructor
 {
 	
 	/** The components. */
@@ -18,21 +18,20 @@ public class Coordinate //Constructor
 	 * @param x the x
 	 * @param y the y
 	 */
-	public Coordinate(int x, int y)
+	protected Coordinate(int dimensiones)
 	{
-		components = new int[2];
-		components[0]=x;
-		components[1]=y; 
+		components = new int[dimensiones];
+		
 	}
-	
+		
 	/**
 	 * Instantiates a new coordinate.
 	 *
 	 * @param c the c
 	 */
-	public Coordinate(Coordinate c)
+	protected Coordinate(Coordinate c)
 	{
-		components = new int[2];
+		components = new int[c.components.length];
 		
 		for(int i = 0; i<components.length ;i++)
 		{
@@ -47,16 +46,17 @@ public class Coordinate //Constructor
 	 * @param component the component
 	 * @return the int
 	 */
-	public int get(int component)
+	public int get(int component) 
 	{
 		if (component>=0 && component<components.length)
 		{
 			return components[component];
 		}
 		else
-			System.err.println("Error in Coordinate.get, component "+component+" is out of range");
+			throw new IllegalArgumentException("Error in Coordinate.get, fuera de rango");
+			//System.err.println("Error in Coordinate.get, component "+component+" is out of range");
 
-		return -1;
+		
 		
 	}
 
@@ -65,19 +65,7 @@ public class Coordinate //Constructor
 	 *
 	 * @return the string
 	 */
-	public String toString()
-	{
-		StringBuilder concatenation = new StringBuilder();
-		concatenation.append("(");
-		for (int i=0;i<components.length;i++)
-		{
-			concatenation.append(components[i]);
-			if (i<components.length-1) // no es la última
-				concatenation.append(", ");
-		}
-		concatenation.append(")");
-		return concatenation.toString();
-	}
+	
 	
 	/**
 	 * Adds the.
@@ -87,9 +75,22 @@ public class Coordinate //Constructor
 	 */
 	public Coordinate add(final Coordinate c) 
 	{
-		Coordinate new_c = new Coordinate(this);
-		for (int i=0; i<components.length; i++)
-			new_c.set(i, new_c.get(i) + c.get(i));
+		Coordinate new_c = this.copy();
+		int tam = -1;
+		if(c==null)
+			throw new NullPointerException("Error en Coordinate.add, La coordenada recibida es nula");
+		if (c.components.length == components.length)
+		{
+			tam=components.length;
+		}
+		else
+		{
+			tam = 2;
+		}
+		
+		for (int i=0; i<tam; i++)
+				new_c.set(i, new_c.get(i) + c.get(i));
+		
                 
 		return new_c;
 	}
@@ -102,10 +103,23 @@ public class Coordinate //Constructor
 	 */
 	public final Coordinate subtract(final Coordinate c) 
 	{
-		Coordinate new_c = new Coordinate(this); 
-        
-		for (int i=0; i<components.length; i++)
-			new_c.set(i, new_c.get(i) - c.get(i));        
+		Coordinate new_c = this.copy(); 
+		int tam = -1;
+		if(c==null)
+			throw new NullPointerException("Error en Coordinate.add, La coordenada recibida es nula");
+		if (c.components.length == components.length)
+		{
+			tam=components.length;
+		}
+		else
+		{
+			tam = 2;
+		}
+		for (int i=0; i<tam; i++)
+				new_c.set(i, new_c.get(i) - c.get(i)); 
+				
+			
+			       
 		return new_c;
 	}
 	
@@ -155,7 +169,8 @@ public class Coordinate //Constructor
 			components[component] = value;
 		}
 		else
-			System.err.println("Error in Coordinate.set, component "+component+" is out of range");
+			throw new IllegalArgumentException("Error in Coordinate.get, fuera de rango");
+			//System.err.println("Error in Coordinate.set, component "+component+" is out of range");
 	}
 	
 	/**
@@ -163,40 +178,15 @@ public class Coordinate //Constructor
 	 *
 	 * @return the coordinate
 	 */
-	public Coordinate copy()
-	{
-		return new Coordinate(this);
-	}
+	public abstract Coordinate copy();
 	
 	/**
 	 * Adjacent coordinates.
 	 *
 	 * @return the sets the
 	 */
-	public Set<Coordinate> adjacentCoordinates()
-	{
-		Set<Coordinate> adjacintos = new HashSet<Coordinate>();	//Creo un Set de adyacentes
-		Coordinate aux = new Coordinate(-99,-99);
-		int x,y;
-		
-		x=this.get(0);
-		y=this.get(1);
-		
-		for(int i = -1; i<=1 ; i++)	//Recorre Filas
-		{
-			for(int j = -1; j<=1 ; j++)	//Recorre Columnas
-			{
-				
-				aux.set(0,x+i);
-				aux.set(1,y+j);
-				if(!this.equals(aux))
-					adjacintos.add(new Coordinate(aux));
-			}
-			
-				
-		}
-	return adjacintos;
-	}
+	public abstract Set<Coordinate> adjacentCoordinates();
+	
 	
 };
 
