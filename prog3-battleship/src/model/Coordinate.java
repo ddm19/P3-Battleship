@@ -12,6 +12,10 @@ public abstract class Coordinate //Constructor
 	/** The components. */
 	private int components[];
 	
+	public int[] getComponents() {
+		return components;
+	}
+
 	/**
 	 * Instantiates a new coordinate.
 	 *
