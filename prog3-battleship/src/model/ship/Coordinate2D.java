@@ -1,17 +1,15 @@
 package model.ship;
 
 import model.Coordinate;
-import model.CoordinateFactory;
-
 import java.util.*;
 
-public class Coordinate2D extends model.Coordinate
+public class Coordinate2D extends Coordinate
 {
 	public Coordinate2D(int x,int y)
 	{
 		super(2);
-		super.set(0,x);
-		super.set(1,y);
+		set(0,x);
+		set(1,y);
 	}
 	
 	public Coordinate2D(Coordinate2D c)
@@ -22,8 +20,7 @@ public class Coordinate2D extends model.Coordinate
 	public Set<Coordinate> adjacentCoordinates()
 	{
 		Set<Coordinate> adjacintos = new HashSet<Coordinate>();    //Creo un Set de adyacentes
-		int[] dimensiones = {-99,-99};
-        Coordinate aux = CoordinateFactory.createCoordinate(dimensiones);
+        Coordinate2D aux = new Coordinate2D(-99,-99);
         int x,y;
 
         x=this.get(0);
@@ -45,7 +42,7 @@ public class Coordinate2D extends model.Coordinate
 	
 	public Coordinate2D copy()
 	{
-		
+		  return new Coordinate2D(this);
 	}
 		
 	public String toString()

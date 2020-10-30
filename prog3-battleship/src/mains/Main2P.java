@@ -1,15 +1,15 @@
 package mains;
 
-import model.Board;
 import model.Coordinate;
 import model.Orientation;
-import model.Ship;
+import model.ship.Board2D;
+import model.ship.Ship;
 
 public class Main2P {
 
 	public static void main(String[] args) {
 				
-		Board bplayer1 = new Board(10);
+		Board2D bplayer1 = new Board2D(10);
 		Ship s1p1 = new Ship(Orientation.EAST,'P',"Dijkstra");
 		Ship s2p1 = new Ship(Orientation.NORTH,'s',"Boole");
 		Ship s3p1 = new Ship(Orientation.EAST,'d',"Knuth");
@@ -20,7 +20,7 @@ public class Main2P {
 	//	System.out.println("(1) Player 1:" + bplayer1);
 		//System.out.println(bplayer1.show(true));
 		
-		Board bplayer2 = new Board(10);
+		Board2D bplayer2 = new Board2D(10);
 		Ship s1p2 = new Ship(Orientation.SOUTH,'X',"X-wing");
 		Ship s2p2 = new Ship(Orientation.WEST,'M',"Millenium Falcon");
 		Ship s3p2 = new Ship(Orientation.NORTH,'C',"Corellian cruiser");

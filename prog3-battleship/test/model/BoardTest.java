@@ -17,12 +17,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import model.ship.Board2D;
+import model.ship.Ship;
+
 public class BoardTest {
 
 	static final int MAX_BOARD_SIZE = 20;
 	static final int  MIN_BOARD_SIZE = 5;
 	final static int DIM = 10;
-	Board board;
+	Board2D board;
 	Ship fragata, galeon, bergantin, goleta;
 	static String sboardEmpty,sboard, sboardHide1, sboardHits1,
 				sboardHits2,sboardHits3, sboardHide2; //= new String();
@@ -70,7 +73,7 @@ public class BoardTest {
 		galeon = new Ship(Orientation.SOUTH,'A',"Francis Drake");
 		bergantin = new Ship(Orientation.EAST,'B',"Benito Soto");
 		goleta = new Ship(Orientation.NORTH,'G',"Hook");
-		board = new Board(DIM);
+		board = new Board2D(DIM);
 		
 	}
 
@@ -78,13 +81,13 @@ public class BoardTest {
 	 */
 	@Test
 	public void testBoardGetSize() {
-		Board board = new Board(MIN_BOARD_SIZE-1);
+		Board board = new Board2D(MIN_BOARD_SIZE-1);
 		assertEquals(MIN_BOARD_SIZE,board.getSize());
-		board = new Board(MAX_BOARD_SIZE+1);
+		board = new Board2D(MAX_BOARD_SIZE+1);
 		assertEquals(MIN_BOARD_SIZE,board.getSize());
-		board = new Board(MIN_BOARD_SIZE+1);
+		board = new Board2D(MIN_BOARD_SIZE+1);
 		assertEquals(MIN_BOARD_SIZE+1,board.getSize());
-		board = new Board(MAX_BOARD_SIZE-1);
+		board = new Board2D(MAX_BOARD_SIZE-1);
 		assertEquals(MAX_BOARD_SIZE-1,board.getSize());
 	}
 	
@@ -94,7 +97,7 @@ public class BoardTest {
 	@Test
 	public void testCheckCoordinate() {
 		final int SIZE = 15;
-		Board board = new Board(SIZE);
+		Board2D board = new Board2D(SIZE);
 		assertFalse(board.checkCoordinate(new Coordinate(0,SIZE)));
 		assertFalse(board.checkCoordinate(new Coordinate(-1,SIZE-1)));
 		assertFalse(board.checkCoordinate(new Coordinate(-1,SIZE)));
@@ -422,7 +425,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void testShowBoardEmty() {
-		board = new Board(5);
+		board = new Board2D(5);
 		String hideShips = board.show(false);
 		assertEquals(sboardHide1,hideShips);
 		String showShips = board.show(true);
@@ -438,7 +441,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void testShowBoardWithShips() {
-		board = new Board(5);
+		board = new Board2D(5);
 		board.addShip(galeon, new Coordinate(-2,-1));
 		board.addShip(fragata, new Coordinate(1,-2));
 		board.addShip(goleta, new Coordinate(2,1));
@@ -462,7 +465,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void testShowBoardWithShipsAndHits() {
-		board = new Board(5);
+		board = new Board2D(5);
 		board.addShip(galeon, new Coordinate(-2,-1));
 		board.addShip(fragata, new Coordinate(1,-2));
 		board.addShip(goleta, new Coordinate(2,1));
