@@ -1,19 +1,36 @@
 package model.exceptions;
 import model.Coordinate;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InvalidCoordinateException.
+ */
 public class InvalidCoordinateException extends BattleshipException {
+	
+	/** The Constant serialVersionUID. */
 	//@SuppressWarnings("serial")
 	private static final long serialVersionUID = 1L;
 	
 	
 	
+	/**
+	 * Instantiates a new invalid coordinate exception.
+	 *
+	 * @param c the c
+	 */
 	public InvalidCoordinateException (Coordinate c)
 	{
 		super(c);
 	}
-	public String getmessage()
+	
+	/**
+	 * Gets the message.
+	 *
+	 * @return the message
+	 */
+	public String getMessage()
 	{
-		String mensaje = "Error! Coordenada Inválida "+super.getC();
+		String mensaje = "Error! Coordenada Inválida " + getC();
 				
 		return mensaje;
 	}

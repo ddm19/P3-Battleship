@@ -1,17 +1,34 @@
 package model.exceptions;
 import model.Coordinate;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CoordinateAlreadyHitException.
+ */
 public class CoordinateAlreadyHitException extends BattleshipException {
+	
+	/** The Constant serialVersionUID. */
 	//@SuppressWarnings("serial")
 	private static final long serialVersionUID = 1L;
 	
 	
 	
+	/**
+	 * Instantiates a new coordinate already hit exception.
+	 *
+	 * @param c the c
+	 */
 	public CoordinateAlreadyHitException (Coordinate c)
 	{
 		super(c);
 	}
-	public String getmessage()
+	
+	/**
+	 * Gets the message.
+	 *
+	 * @return the message
+	 */
+	public String getMessage()
 	{
 		String mensaje = "Error! Coordenada ya impactada "+super.getC();
 				

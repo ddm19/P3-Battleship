@@ -10,6 +10,10 @@ import model.exceptions.NextToAnotherCraftException;
 import model.exceptions.OccupiedCoordinateException;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Board.
+ */
 public abstract class Board {
 
 	/** The hit symbol. */
@@ -19,6 +23,7 @@ public abstract class Board {
 	/** The notseen symbol. */
 	public static char NOTSEEN_SYMBOL = '?';
 	
+	/** The board separator. */
 	public static char BOARD_SEPARATOR = '|';
 	/** The max board size. */
 	private static int MAX_BOARD_SIZE = 20;
@@ -35,7 +40,13 @@ public abstract class Board {
 	/** The seen. */
 	private Set<Coordinate> seen = new HashSet<Coordinate>();
 
-	public Board() 
+	/**
+	 * Instantiates a new board.
+	 *
+	 * @param size the size
+	 * @throws Exception the exception
+	 */
+	public Board(int size) throws Exception
 	{
 		
 		board=new HashMap<Coordinate,Craft>();
@@ -83,14 +94,24 @@ public abstract class Board {
 	/**
 	 * Adds the ship.
 	 *
-	 * @param ship the ship
-	 * @param position the position
+	 * @param c the c
 	 * @return true, if successful
 	 */
 	
 	public abstract boolean checkCoordinate(Coordinate c);
 	
-	public boolean addCraft(Craft craft, Coordinate position) throws Exception
+	/**
+	 * Adds the craft.
+	 *
+	 * @param craft the craft
+	 * @param position the position
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 * @throws InvalidCoordinateException the invalid coordinate exception
+	 * @throws OccupiedCoordinateException the occupied coordinate exception
+	 * @throws NextToAnotherCraftException the next to another craft exception
+	 */
+	public boolean addCraft(Craft craft, Coordinate position) throws Exception,InvalidCoordinateException,OccupiedCoordinateException,NextToAnotherCraftException
 	{
 		//Esquina izquierda superior = (0,0) del shape
 		//COMRPROBAR:
@@ -188,8 +209,9 @@ public abstract class Board {
 	 * @param c the c
 	 * @param hundido the hundido
 	 * @param barco the barco
+	 * @throws Exception the exception
 	 */
-	private void nuevoVisto(Coordinate c, boolean hundido, Craft barco) {
+	private void nuevoVisto(Coordinate c, boolean hundido, Craft barco) throws Exception {
 			Set<Coordinate> vecinos = new HashSet<Coordinate>();
 			
 			if(barco!=null)
@@ -209,8 +231,10 @@ public abstract class Board {
 	 *
 	 * @param c the c
 	 * @return the cell status
+	 * @throws Exception the exception
+	 * @throws InvalidCoordinateException the invalid coordinate exception
 	 */
-	public CellStatus hit(Coordinate c) throws Exception  {
+	public CellStatus hit(Coordinate c) throws Exception,InvalidCoordinateException  {
 	/* 3 Comprobaciones : 
 	 * 1-Dentro del tablero 
 	 * 2-Si hay o no barco (hit o water) 
@@ -281,8 +305,9 @@ public abstract class Board {
 	 * @param ship the ship
 	 * @param position the position
 	 * @return the neighborhood
+	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getNeighborhood(Craft ship, Coordinate position) {
+	public Set<Coordinate> getNeighborhood(Craft ship, Coordinate position) throws Exception {
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
 		Set<Coordinate> abspos = new HashSet<Coordinate>();
 		Coordinate arrayabs [] = null;
@@ -317,8 +342,9 @@ public abstract class Board {
 	 *
 	 * @param ship the ship
 	 * @return the neighborhood
+	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getNeighborhood(Craft ship) {
+	public Set<Coordinate> getNeighborhood(Craft ship) throws Exception {
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
 		Coordinate c = ship.getPosition();
 	if(c!=null)	
@@ -331,11 +357,36 @@ public abstract class Board {
 	/**
 	 * To string.
 	 *
+	 * @param unveil the unveil
 	 * @return the string
+	 * @throws Exception the exception
 	 */
 	
-	public abstract String show();
+	public abstract String show(boolean unveil) throws Exception;
 	
+	/**
+	 * Gets the board.
+	 *
+	 * @return the board
+	 */
+	public Map<Coordinate, Craft> getBoard() {
+		return board;
+	}
+
+	/**
+	 * Gets the seen.
+	 *
+	 * @return the seen
+	 */
+	public Set<Coordinate> getSeen() {
+		return seen;
+	}
+
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		

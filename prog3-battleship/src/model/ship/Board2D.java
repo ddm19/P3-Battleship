@@ -3,6 +3,8 @@ import java.util.*;
 
 import model.Board;
 import model.Coordinate;
+import model.CoordinateFactory;
+import model.Craft;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,10 +16,11 @@ public class Board2D extends Board {
 	 * Instantiates a new board.
 	 *
 	 * @param size the size
+	 * @throws Exception the exception
 	 */
-	public Board2D(int size)	//DONE
+	public Board2D(int size) throws Exception	//DONE
 	{
-		super();
+		super(size);
 	}
 	
 	/**
@@ -25,9 +28,13 @@ public class Board2D extends Board {
 	 *
 	 * @param c the c
 	 * @return true, if successful
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public boolean checkCoordinate(Coordinate c)
+	@Override
+	public boolean checkCoordinate(Coordinate c) throws IllegalArgumentException
 	{
+		if(!(c instanceof Coordinate2D))
+			throw new IllegalArgumentException("Error! La coordenada no es una coordenada 2D");
 		boolean dentro=false;
 		int x=c.get(0),y=c.get(1);
 		
@@ -45,11 +52,16 @@ public class Board2D extends Board {
 	 *
 	 * @param unveil the unveil
 	 * @return the string
+	 * @throws Exception the exception
 	 */
-	public String show(boolean unveil)
+	@Override
+	public String show(boolean unveil) throws Exception
 	{
 		String tablero="";		
-		Coordinate c = new Coordinate(-1,-1);
+		int coords[] = {-99,-99};
+		Map<Coordinate, Craft> board = getBoard();
+		Set<Coordinate> seen = getSeen();
+		Coordinate2D c = (Coordinate2D)CoordinateFactory.createCoordinate(coords);
 		
 		for(int i = 0 ; i<getSize() ; i++)	// Recorro todas las Coordenadas x del mapa
 		{
@@ -65,7 +77,7 @@ public class Board2D extends Board {
 						if(seen.contains(c))	//Si el adversario la ha visto (alcanzada)
 							tablero += HIT_SYMBOL;
 						else
-							tablero += getShip(c).getSymbol(); // NO Alcanzada -> coloco en el tablero el símbolo del barco
+							tablero += getCraft(c).getSymbol(); // NO Alcanzada -> coloco en el tablero el símbolo del barco
 					}
 					else
 					{
@@ -79,8 +91,8 @@ public class Board2D extends Board {
 					{
 						if(board.containsKey(c))
 						{
-							if(getShip(c).isShotDown())	// y está hundido
-								tablero += getShip(c).getSymbol();	//Símbolo del barco
+							if(getCraft(c).isShotDown())	// y está hundido
+								tablero += getCraft(c).getSymbol();	//Símbolo del barco
 							else 
 								tablero += HIT_SYMBOL;	// NO Hundido-> símbolo de tocado
 						}

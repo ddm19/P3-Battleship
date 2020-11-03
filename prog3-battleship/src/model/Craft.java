@@ -7,6 +7,10 @@ import model.exceptions.CoordinateAlreadyHitException;
 import model.Coordinate;
 import model.CoordinateFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Craft.
+ */
 public abstract class Craft {
 
 	/** The bounding square size. */
@@ -26,6 +30,13 @@ public abstract class Craft {
 	/** The orientation. */
 	protected Orientation orientation;
 
+	/**
+	 * Instantiates a new craft.
+	 *
+	 * @param o the o
+	 * @param s the s
+	 * @param n the n
+	 */
 	public Craft(Orientation o,char s,String n)	// orientation N/E/S/W - name = nombre del barco - symbol = carácter representativo del barco - position = coords
 	{
 		orientation=o;
@@ -143,8 +154,9 @@ public abstract class Craft {
 	 *
 	 * @param c the c
 	 * @return the absolute positions
+	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getAbsolutePositions(Coordinate c) 
+	public Set<Coordinate> getAbsolutePositions(Coordinate c) throws Exception
 	{
 		if(c==null)
 		{
@@ -187,8 +199,9 @@ public abstract class Craft {
 	 * Gets the absolute positions.
 	 *
 	 * @return the absolute positions
+	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getAbsolutePositions() {
+	public Set<Coordinate> getAbsolutePositions() throws Exception {
 		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
 		Coordinate pbarco = getPosition();
 		
@@ -204,8 +217,10 @@ public abstract class Craft {
 	 *
 	 * @param c the c
 	 * @return true, if successful
+	 * @throws Exception the exception
+	 * @throws CoordinateAlreadyHitException the coordinate already hit exception
 	 */
-	public boolean hit(Coordinate c) throws Exception
+	public boolean hit(Coordinate c) throws Exception,CoordinateAlreadyHitException
 	{
 		Set<Coordinate> posistrbarcoarco = new HashSet <Coordinate>(getAbsolutePositions());	// Creo un Set con los 1 en el mapa del barco
 		int shapehit[][] = getShape();
@@ -235,8 +250,9 @@ public abstract class Craft {
 	 * Checks if is shot down.
 	 *
 	 * @return true, if is shot down
+	 * @throws Exception the exception
 	 */
-	public boolean isShotDown() {	
+	public boolean isShotDown() throws Exception {	
 		Set<Coordinate> posistrbarcoarco = this.getAbsolutePositions();
 		boolean hundido = true;
 		Coordinate posis[] = posistrbarcoarco.toArray(new Coordinate[posistrbarcoarco.size()]); //Transforma posistrbarcoarco en un array
@@ -258,8 +274,9 @@ public abstract class Craft {
 	 *
 	 * @param c the c
 	 * @return true, if is hit
+	 * @throws Exception the exception
 	 */
-	public boolean isHit(Coordinate c) {
+	public boolean isHit(Coordinate c) throws Exception {
 		int shapeishit[][] = getShape();
 		c = c.subtract(getPosition());
 		int ori = numorientacion(),index = getShapeIndex(c);

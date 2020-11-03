@@ -3,8 +3,19 @@ package model.ship;
 import model.Coordinate;
 import java.util.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Coordinate2D.
+ */
 public class Coordinate2D extends Coordinate
 {
+	
+	/**
+	 * Instantiates a new coordinate 2 D.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public Coordinate2D(int x,int y)
 	{
 		super(2);
@@ -12,10 +23,21 @@ public class Coordinate2D extends Coordinate
 		set(1,y);
 	}
 	
+	/**
+	 * Instantiates a new coordinate 2 D.
+	 *
+	 * @param c the c
+	 */
 	public Coordinate2D(Coordinate2D c)
 	{
 		super(c);
 	}
+	
+	/**
+	 * Adjacent coordinates.
+	 *
+	 * @return the sets the
+	 */
 	@Override
 	public Set<Coordinate> adjacentCoordinates()
 	{
@@ -40,11 +62,21 @@ public class Coordinate2D extends Coordinate
         return adjacintos; 
 	}
 	
+	/**
+	 * Copy.
+	 *
+	 * @return the coordinate 2 D
+	 */
 	public Coordinate2D copy()
 	{
 		  return new Coordinate2D(this);
 	}
 		
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	public String toString()
 	    {
 			int components[] = getComponents();
@@ -59,5 +91,16 @@ public class Coordinate2D extends Coordinate
 	        concatenation.append(")");
 	        return concatenation.toString();
 	    }
+	
+	/**
+	 * Sets the.
+	 *
+	 * @param component the component
+	 * @param value the value
+	 */
+	protected void set(int component,int value)
+	{
+		super.set(component, value);
+	}
 	}
 

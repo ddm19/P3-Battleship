@@ -12,6 +12,11 @@ public abstract class Coordinate //Constructor
 	/** The components. */
 	private int components[];
 	
+	/**
+	 * Gets the components.
+	 *
+	 * @return the components
+	 */
 	public int[] getComponents() {
 		return components;
 	}
@@ -19,8 +24,7 @@ public abstract class Coordinate //Constructor
 	/**
 	 * Instantiates a new coordinate.
 	 *
-	 * @param x the x
-	 * @param y the y
+	 * @param dimensiones the dimensiones
 	 */
 	protected Coordinate(int dimensiones)
 	{
@@ -49,8 +53,9 @@ public abstract class Coordinate //Constructor
 	 *
 	 * @param component the component
 	 * @return the int
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public int get(int component) 
+	public int get(int component) throws IllegalArgumentException
 	{
 		if (component>=0 && component<components.length)
 		{
@@ -67,7 +72,9 @@ public abstract class Coordinate //Constructor
 	/**
 	 * To string.
 	 *
+	 * @param c the c
 	 * @return the string
+	 * @throws Exception the exception
 	 */
 	
 	
@@ -77,7 +84,7 @@ public abstract class Coordinate //Constructor
 	 * @param c the c
 	 * @return the coordinate
 	 */
-	public Coordinate add(final Coordinate c) 
+	public Coordinate add(final Coordinate c) throws Exception
 	{
 		Coordinate new_c = this.copy();
 		int tam = -1;
@@ -104,8 +111,9 @@ public abstract class Coordinate //Constructor
 	 *
 	 * @param c the c
 	 * @return the coordinate
+	 * @throws Exception the exception
 	 */
-	public final Coordinate subtract(final Coordinate c) 
+	public final Coordinate subtract(final Coordinate c) throws Exception
 	{
 		Coordinate new_c = this.copy(); 
 		int tam = -1;
@@ -165,8 +173,9 @@ public abstract class Coordinate //Constructor
 	 *
 	 * @param component the component
 	 * @param value the value
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	protected void set(int component,int value)
+	protected void set(int component,int value) throws IllegalArgumentException
 	{
 		
 		if (component>=0 && component<components.length) {

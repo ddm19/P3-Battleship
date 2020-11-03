@@ -3,9 +3,21 @@ package model;
 import model.ship.*;
 import model.aircraft.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating Coordinate objects.
+ */
 public class CoordinateFactory 
 {
-	public static Coordinate createCoordinate(int coords[])
+	
+	/**
+	 * Creates a new Coordinate object.
+	 *
+	 * @param coords the coords
+	 * @return the coordinate
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
+	public static Coordinate createCoordinate(int coords[]) throws IllegalArgumentException
 	{
 		if(coords.length!=2 && coords.length!=3)
 		{

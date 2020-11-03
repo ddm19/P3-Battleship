@@ -5,8 +5,20 @@ import java.util.Set;
 
 import model.Coordinate;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Coordinate3D.
+ */
 public class Coordinate3D extends Coordinate
 {
+	
+	/**
+	 * Instantiates a new coordinate 3 D.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param z the z
+	 */
 	public Coordinate3D(int x,int y,int z)
 	{
 		super(3);
@@ -15,11 +27,21 @@ public class Coordinate3D extends Coordinate
 		set(2,z);
 	}
 	
+	/**
+	 * Instantiates a new coordinate 3 D.
+	 *
+	 * @param c the c
+	 */
 	public Coordinate3D(Coordinate3D c)
 	{
 		super(c);
 	}
 	
+	/**
+	 * Adjacent coordinates.
+	 *
+	 * @return the sets the
+	 */
 	public Set<Coordinate> adjacentCoordinates()
 	{
 		Set<Coordinate> adjacintos = new HashSet<Coordinate>();    //Creo un Set de adyacentes
@@ -51,11 +73,21 @@ public class Coordinate3D extends Coordinate
         return adjacintos; 
 	}
 	
+	/**
+	 * Copy.
+	 *
+	 * @return the coordinate 3 D
+	 */
 	public Coordinate3D copy()
 	{
 		 return new Coordinate3D(this);
 	}
 		
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	public String toString()
 	{
 		int components[] = getComponents();
@@ -71,4 +103,14 @@ public class Coordinate3D extends Coordinate
         return concatenation.toString();
 	}
 
+	/**
+	 * Sets the.
+	 *
+	 * @param component the component
+	 * @param value the value
+	 */
+	protected void set(int component,int value)
+	{
+		super.set(component, value);
+	}
 }
