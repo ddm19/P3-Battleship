@@ -74,7 +74,6 @@ public abstract class Coordinate //Constructor
 	 *
 	 * @param c the c
 	 * @return the string
-	 * @throws Exception the exception
 	 */
 	
 	
@@ -111,7 +110,6 @@ public abstract class Coordinate //Constructor
 	 *
 	 * @param c the c
 	 * @return the coordinate
-	 * @throws Exception the exception
 	 */
 	public final Coordinate subtract(final Coordinate c) 
 	{

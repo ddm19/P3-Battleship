@@ -155,7 +155,6 @@ public abstract class Craft {
 	 *
 	 * @param c the c
 	 * @return the absolute positions
-	 * @throws Exception the exception
 	 */
 	public Set<Coordinate> getAbsolutePositions(Coordinate c) 
 	{
@@ -201,7 +200,6 @@ public abstract class Craft {
 	 * Gets the absolute positions.
 	 *
 	 * @return the absolute positions
-	 * @throws Exception the exception
 	 */
 	public Set<Coordinate> getAbsolutePositions() {
 		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
@@ -219,7 +217,6 @@ public abstract class Craft {
 	 *
 	 * @param c the c
 	 * @return true, if successful
-	 * @throws Exception the exception
 	 * @throws CoordinateAlreadyHitException the coordinate already hit exception
 	 */
 	public boolean hit(Coordinate c) throws CoordinateAlreadyHitException
@@ -252,7 +249,6 @@ public abstract class Craft {
 	 * Checks if is shot down.
 	 *
 	 * @return true, if is shot down
-	 * @throws Exception the exception
 	 */
 	public boolean isShotDown() {	
 		Set<Coordinate> posistrbarcoarco = this.getAbsolutePositions();
@@ -279,7 +275,6 @@ public abstract class Craft {
 	 *
 	 * @param c the c
 	 * @return true, if is hit
-	 * @throws Exception the exception
 	 */
 	public boolean isHit(Coordinate c) {
 		int shapeishit[][] = getShape();

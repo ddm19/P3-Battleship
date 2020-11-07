@@ -19,7 +19,6 @@ public class Board3D extends Board
 		 * Instantiates a new board.
 		 *
 		 * @param size the size
-		 * @throws Exception the exception
 		 */
 		public Board3D(int size) //DONE
 		{
@@ -54,7 +53,6 @@ public class Board3D extends Board
 		 *
 		 * @param unveil the unveil
 		 * @return the string
-		 * @throws Exception the exception
 		 */
 		@Override
 		public String show(boolean unveil)

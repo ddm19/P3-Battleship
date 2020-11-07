@@ -16,7 +16,6 @@ public class Board2D extends Board {
 	 * Instantiates a new board.
 	 *
 	 * @param size the size
-	 * @throws Exception the exception
 	 */
 	public Board2D(int size)	//DONE
 	{
@@ -52,7 +51,6 @@ public class Board2D extends Board {
 	 *
 	 * @param unveil the unveil
 	 * @return the string
-	 * @throws Exception the exception
 	 */
 	@Override
 	public String show(boolean unveil) 

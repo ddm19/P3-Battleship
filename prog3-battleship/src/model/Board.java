@@ -45,7 +45,6 @@ public abstract class Board {
 	 * Instantiates a new board.
 	 *
 	 * @param size the size
-	 * @throws Exception the exception
 	 */
 	public Board(int size) 
 	{
@@ -107,7 +106,6 @@ public abstract class Board {
 	 * @param craft the craft
 	 * @param position the position
 	 * @return true, if successful
-	 * @throws Exception the exception
 	 * @throws InvalidCoordinateException the invalid coordinate exception
 	 * @throws OccupiedCoordinateException the occupied coordinate exception
 	 * @throws NextToAnotherCraftException the next to another craft exception
@@ -210,7 +208,6 @@ public abstract class Board {
 	 * @param c the c
 	 * @param hundido the hundido
 	 * @param barco the barco
-	 * @throws Exception the exception
 	 */
 	private void nuevoVisto(Coordinate c, boolean hundido, Craft barco) {
 			Set<Coordinate> vecinos = new HashSet<Coordinate>();
@@ -232,9 +229,8 @@ public abstract class Board {
 	 *
 	 * @param c the c
 	 * @return the cell status
-	 * @throws Exception the exception
 	 * @throws InvalidCoordinateException the invalid coordinate exception
-	 * @throws CoordinateAlreadyHitException 
+	 * @throws CoordinateAlreadyHitException the coordinate already hit exception
 	 */
 	public CellStatus hit(Coordinate c) throws InvalidCoordinateException, CoordinateAlreadyHitException  {
 	/* 3 Comprobaciones : 
@@ -307,7 +303,6 @@ public abstract class Board {
 	 * @param ship the ship
 	 * @param position the position
 	 * @return the neighborhood
-	 * @throws Exception the exception
 	 */
 	public Set<Coordinate> getNeighborhood(Craft ship, Coordinate position) {
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
@@ -344,7 +339,6 @@ public abstract class Board {
 	 *
 	 * @param ship the ship
 	 * @return the neighborhood
-	 * @throws Exception the exception
 	 */
 	public Set<Coordinate> getNeighborhood(Craft ship) {
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
@@ -364,7 +358,6 @@ public abstract class Board {
 	 *
 	 * @param unveil the unveil
 	 * @return the string
-	 * @throws Exception the exception
 	 */
 	
 	public abstract String show(boolean unveil) ;
