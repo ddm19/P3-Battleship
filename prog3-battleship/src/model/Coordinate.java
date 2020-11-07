@@ -55,7 +55,7 @@ public abstract class Coordinate //Constructor
 	 * @return the int
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public int get(int component) throws IllegalArgumentException
+	public int get(int component) 
 	{
 		if (component>=0 && component<components.length)
 		{
@@ -84,7 +84,7 @@ public abstract class Coordinate //Constructor
 	 * @param c the c
 	 * @return the coordinate
 	 */
-	public Coordinate add(final Coordinate c) throws Exception
+	public Coordinate add(final Coordinate c) 
 	{
 		Coordinate new_c = this.copy();
 		int tam = -1;
@@ -113,7 +113,7 @@ public abstract class Coordinate //Constructor
 	 * @return the coordinate
 	 * @throws Exception the exception
 	 */
-	public final Coordinate subtract(final Coordinate c) throws Exception
+	public final Coordinate subtract(final Coordinate c) 
 	{
 		Coordinate new_c = this.copy(); 
 		int tam = -1;
@@ -175,7 +175,7 @@ public abstract class Coordinate //Constructor
 	 * @param value the value
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	protected void set(int component,int value) throws IllegalArgumentException
+	protected void set(int component,int value) 
 	{
 		
 		if (component>=0 && component<components.length) {

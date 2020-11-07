@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import model.exceptions.CoordinateAlreadyHitException;
+import model.ship.Coordinate2D;
 import model.Coordinate;
 import model.CoordinateFactory;
 
@@ -156,7 +157,7 @@ public abstract class Craft {
 	 * @return the absolute positions
 	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getAbsolutePositions(Coordinate c) throws Exception
+	public Set<Coordinate> getAbsolutePositions(Coordinate c) 
 	{
 		if(c==null)
 		{
@@ -182,7 +183,8 @@ public abstract class Craft {
 				numshape= getShapeIndex(aux);
 				if(shape2[ori][numshape]==CRAFT_VALUE || shape2[ori][numshape]==HIT_VALUE)
 				{
-					aux=aux.add(c);
+					Coordinate2D c2d = new Coordinate2D(c.get(0),c.get(1));
+					aux=aux.add(c2d);
 					Posiciones.add(aux.copy());
 				
 				}
@@ -201,7 +203,7 @@ public abstract class Craft {
 	 * @return the absolute positions
 	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getAbsolutePositions() throws Exception {
+	public Set<Coordinate> getAbsolutePositions() {
 		Set<Coordinate> Posiciones = new HashSet<Coordinate>();
 		Coordinate pbarco = getPosition();
 		
@@ -220,7 +222,7 @@ public abstract class Craft {
 	 * @throws Exception the exception
 	 * @throws CoordinateAlreadyHitException the coordinate already hit exception
 	 */
-	public boolean hit(Coordinate c) throws Exception,CoordinateAlreadyHitException
+	public boolean hit(Coordinate c) throws CoordinateAlreadyHitException
 	{
 		Set<Coordinate> posistrbarcoarco = new HashSet <Coordinate>(getAbsolutePositions());	// Creo un Set con los 1 en el mapa del barco
 		int shapehit[][] = getShape();
@@ -252,7 +254,7 @@ public abstract class Craft {
 	 * @return true, if is shot down
 	 * @throws Exception the exception
 	 */
-	public boolean isShotDown() throws Exception {	
+	public boolean isShotDown() {	
 		Set<Coordinate> posistrbarcoarco = this.getAbsolutePositions();
 		boolean hundido = true;
 		Coordinate posis[] = posistrbarcoarco.toArray(new Coordinate[posistrbarcoarco.size()]); //Transforma posistrbarcoarco en un array
@@ -265,7 +267,10 @@ public abstract class Craft {
 				hundido=false;
 			}
 		}
-		
+		if(getPosition()==null)
+		{
+			hundido=false;
+		}
 		return hundido;
 	}
 
@@ -276,7 +281,7 @@ public abstract class Craft {
 	 * @return true, if is hit
 	 * @throws Exception the exception
 	 */
-	public boolean isHit(Coordinate c) throws Exception {
+	public boolean isHit(Coordinate c) {
 		int shapeishit[][] = getShape();
 		c = c.subtract(getPosition());
 		int ori = numorientacion(),index = getShapeIndex(c);

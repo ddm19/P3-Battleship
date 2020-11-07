@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import model.exceptions.CoordinateAlreadyHitException;
 import model.exceptions.InvalidCoordinateException;
 import model.exceptions.NextToAnotherCraftException;
 import model.exceptions.OccupiedCoordinateException;
@@ -46,7 +47,7 @@ public abstract class Board {
 	 * @param size the size
 	 * @throws Exception the exception
 	 */
-	public Board(int size) throws Exception
+	public Board(int size) 
 	{
 		
 		board=new HashMap<Coordinate,Craft>();
@@ -111,7 +112,7 @@ public abstract class Board {
 	 * @throws OccupiedCoordinateException the occupied coordinate exception
 	 * @throws NextToAnotherCraftException the next to another craft exception
 	 */
-	public boolean addCraft(Craft craft, Coordinate position) throws Exception,InvalidCoordinateException,OccupiedCoordinateException,NextToAnotherCraftException
+	public boolean addCraft(Craft craft, Coordinate position) throws InvalidCoordinateException,OccupiedCoordinateException,NextToAnotherCraftException
 	{
 		//Esquina izquierda superior = (0,0) del shape
 		//COMRPROBAR:
@@ -211,7 +212,7 @@ public abstract class Board {
 	 * @param barco the barco
 	 * @throws Exception the exception
 	 */
-	private void nuevoVisto(Coordinate c, boolean hundido, Craft barco) throws Exception {
+	private void nuevoVisto(Coordinate c, boolean hundido, Craft barco) {
 			Set<Coordinate> vecinos = new HashSet<Coordinate>();
 			
 			if(barco!=null)
@@ -219,11 +220,11 @@ public abstract class Board {
 			
 		if(hundido)
 		{
-			vecinos.add(c);		//Añado la coordenada del hit a sus vecinos
+			vecinos.add(c.copy());		//Añado la coordenada del hit a sus vecinos
 			seen.addAll(vecinos);	//y lo añado todo a seen
 		}
 		else
-			seen.add(c);
+			seen.add(c.copy());
 	}
 
 	/**
@@ -233,8 +234,9 @@ public abstract class Board {
 	 * @return the cell status
 	 * @throws Exception the exception
 	 * @throws InvalidCoordinateException the invalid coordinate exception
+	 * @throws CoordinateAlreadyHitException 
 	 */
-	public CellStatus hit(Coordinate c) throws Exception,InvalidCoordinateException  {
+	public CellStatus hit(Coordinate c) throws InvalidCoordinateException, CoordinateAlreadyHitException  {
 	/* 3 Comprobaciones : 
 	 * 1-Dentro del tablero 
 	 * 2-Si hay o no barco (hit o water) 
@@ -307,7 +309,7 @@ public abstract class Board {
 	 * @return the neighborhood
 	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getNeighborhood(Craft ship, Coordinate position) throws Exception {
+	public Set<Coordinate> getNeighborhood(Craft ship, Coordinate position) {
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
 		Set<Coordinate> abspos = new HashSet<Coordinate>();
 		Coordinate arrayabs [] = null;
@@ -344,10 +346,13 @@ public abstract class Board {
 	 * @return the neighborhood
 	 * @throws Exception the exception
 	 */
-	public Set<Coordinate> getNeighborhood(Craft ship) throws Exception {
+	public Set<Coordinate> getNeighborhood(Craft ship) {
 		Set<Coordinate> vecinos = new HashSet<Coordinate>();
 		Coordinate c = ship.getPosition();
-	if(c!=null)	
+	if(c==null)	
+	{
+		throw new NullPointerException("Error! El barco es Nulo");
+	}
 		vecinos = getNeighborhood(ship,c);
 		
 		return vecinos;
@@ -362,7 +367,7 @@ public abstract class Board {
 	 * @throws Exception the exception
 	 */
 	
-	public abstract String show(boolean unveil) throws Exception;
+	public abstract String show(boolean unveil) ;
 	
 	/**
 	 * Gets the board.

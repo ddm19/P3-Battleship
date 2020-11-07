@@ -21,7 +21,7 @@ public class Board3D extends Board
 		 * @param size the size
 		 * @throws Exception the exception
 		 */
-		public Board3D(int size) throws Exception	//DONE
+		public Board3D(int size) //DONE
 		{
 			super(size);
 		}
@@ -57,7 +57,7 @@ public class Board3D extends Board
 		 * @throws Exception the exception
 		 */
 		@Override
-		public String show(boolean unveil) throws Exception
+		public String show(boolean unveil)
 		{
 			String tablero="";		
 			int coords[] = {-99,-99,-99};
@@ -71,9 +71,9 @@ public class Board3D extends Board
 				{
 					for(int i = 0 ; i<getSize() ; i++)	// Recorro todas las Coordenadas x del mapa
 					{
-						c.set(0,j);
-						c.set(1,k);
-						c.set(2,i);
+						c.set(0,i);
+						c.set(1,j);
+						c.set(2,k);
 						
 						if(unveil)	//TABLERO COMPLETO
 						{					

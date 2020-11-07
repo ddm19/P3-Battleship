@@ -17,7 +17,7 @@ public class CoordinateFactory
 	 * @return the coordinate
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public static Coordinate createCoordinate(int coords[]) throws IllegalArgumentException
+	public static Coordinate createCoordinate(int ... coords) 
 	{
 		if(coords.length!=2 && coords.length!=3)
 		{

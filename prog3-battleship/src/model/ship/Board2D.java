@@ -18,7 +18,7 @@ public class Board2D extends Board {
 	 * @param size the size
 	 * @throws Exception the exception
 	 */
-	public Board2D(int size) throws Exception	//DONE
+	public Board2D(int size)	//DONE
 	{
 		super(size);
 	}
@@ -31,7 +31,7 @@ public class Board2D extends Board {
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	@Override
-	public boolean checkCoordinate(Coordinate c) throws IllegalArgumentException
+	public boolean checkCoordinate(Coordinate c) 
 	{
 		if(!(c instanceof Coordinate2D))
 			throw new IllegalArgumentException("Error! La coordenada no es una coordenada 2D");
@@ -55,7 +55,7 @@ public class Board2D extends Board {
 	 * @throws Exception the exception
 	 */
 	@Override
-	public String show(boolean unveil) throws Exception
+	public String show(boolean unveil) 
 	{
 		String tablero="";		
 		int coords[] = {-99,-99};

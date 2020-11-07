@@ -62,12 +62,14 @@ public class Coordinate3D extends Coordinate
                 {
                 	 aux.set(0,x+i);
                      aux.set(1,y+j);
-                     aux.set(1,z+k);
+                     aux.set(2,z+k);
+                     
+                     if(!this.equals(aux))
+                         adjacintos.add(aux.copy());
                 }
                
                 
-                if(!this.equals(aux))
-                    adjacintos.add(aux.copy());
+                
             }
         }
         return adjacintos; 
