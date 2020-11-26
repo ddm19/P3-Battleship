@@ -25,7 +25,7 @@ import model.ship.Ship;
 
 public class MainP3 {
 
-	private static void printAbsolutePositions(Craft crf, Coordinate pos) throws Exception {
+	private static void printAbsolutePositions(Craft crf, Coordinate pos) {
 		System.out.print("Absolute positions: ");
 		for (Coordinate c: crf.getAbsolutePositions(pos)) {
 			System.out.print(c+" ");
@@ -33,7 +33,7 @@ public class MainP3 {
 		System.out.println("");
 	}
 	
-	private static void printNeighbouringPositions(Craft crf, Board board) throws Exception {
+	private static void printNeighbouringPositions(Craft crf, Board board)  {
 		System.out.print("Neighbouring positions: ");
 		for (Coordinate c: board.getNeighborhood(crf)) {
 			System.out.print(c+" ");
@@ -41,7 +41,7 @@ public class MainP3 {
 		System.out.println("");
 	}
 	
-	private static void mainBoard2D() throws Exception {
+	private static void mainBoard2D()  {
 		Board2D board2d = null;
 		System.out.println("=== Board 2D ===");
 		System.out.println(new Cruiser(Orientation.NORTH));
@@ -243,7 +243,7 @@ public class MainP3 {
 		System.out.println(board2d.show(true));
 	}
 	
-	private static void mainBoard3D() throws Exception {
+	private static void mainBoard3D()  {
 		Board3D board3d = null;
 		System.out.println("=== Board 3D ===");
 		System.out.println(new Fighter(Orientation.NORTH));
@@ -367,7 +367,7 @@ public class MainP3 {
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args)  {
 		mainBoard2D();
 		System.out.println("\n%-%-%-%-%-%-%-%-%-%-%-%-%-%-%\n");
 		mainBoard3D();
