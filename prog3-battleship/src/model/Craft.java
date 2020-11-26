@@ -207,7 +207,8 @@ public abstract class Craft {
 		
 		if(pbarco!=null)
 			Posiciones=getAbsolutePositions(pbarco);
-		
+		else
+			throw new NullPointerException();
 		
 		return Posiciones;
 	}
@@ -250,25 +251,32 @@ public abstract class Craft {
 	 *
 	 * @return true, if is shot down
 	 */
-	public boolean isShotDown() {	
-		Set<Coordinate> posistrbarcoarco = this.getAbsolutePositions();
-		boolean hundido = true;
-		Coordinate posis[] = posistrbarcoarco.toArray(new Coordinate[posistrbarcoarco.size()]); //Transforma posistrbarcoarco en un array
+	public boolean isShotDown() 
+	{	
 		
-		for(int i = 0; i<posistrbarcoarco.size() ; i++)	//para cada posición del barco comprueba que esté tocada (ishit), 
+		Set<Coordinate> posistrbarcoarco = null;
+		boolean hundido = false;
+		if(this.getPosition()!=null)
 		{
-			
-			if(!this.isHit(posis[i]))	//Si no lo está, el barco no está hundido
+			posistrbarcoarco=this.getAbsolutePositions();
+			hundido = true;
+			Coordinate posis[] = posistrbarcoarco.toArray(new Coordinate[posistrbarcoarco.size()]); //Transforma posistrbarcoarco en un array
+		
+			for(int i = 0; i<posistrbarcoarco.size() ; i++)	//para cada posición del barco comprueba que esté tocada (ishit), 
+			{
+				
+				if(!this.isHit(posis[i]))	//Si no lo está, el barco no está hundido
+				{
+					hundido=false;
+				}
+			}
+			if(getPosition()==null)
 			{
 				hundido=false;
 			}
 		}
-		if(getPosition()==null)
-		{
-			hundido=false;
+			return hundido;
 		}
-		return hundido;
-	}
 
 	/**
 	 * Checks if is hit.

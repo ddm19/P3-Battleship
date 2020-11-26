@@ -5,7 +5,7 @@ import model.Coordinate;
 /**
  * The Class InvalidCoordinateException.
  */
-public class InvalidCoordinateException extends BattleshipException {
+public class InvalidCoordinateException extends CoordinateException {
 	
 	/** The Constant serialVersionUID. */
 	//@SuppressWarnings("serial")
