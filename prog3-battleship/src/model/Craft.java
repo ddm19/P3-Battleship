@@ -15,7 +15,7 @@ import model.CoordinateFactory;
 public abstract class Craft {
 
 	/** The bounding square size. */
-	private static int BOUNDING_SQUARE_SIZE = 5;
+	public static int BOUNDING_SQUARE_SIZE = 5;
 	/** The hit value. */
 	private static int HIT_VALUE = -1;
 	/** The craft value. */
