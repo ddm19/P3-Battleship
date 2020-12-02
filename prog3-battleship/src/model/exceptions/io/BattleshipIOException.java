@@ -2,7 +2,7 @@ package model.exceptions.io;
 
 import model.exceptions.BattleshipException;
 
-public class BattleshipIOExcepcion extends BattleshipException 
+public class BattleshipIOException extends BattleshipException 
 {
 	/**
 	 * 
@@ -10,7 +10,7 @@ public class BattleshipIOExcepcion extends BattleshipException
 	private static final long serialVersionUID = 1L;
 	String message;
 	
-	public BattleshipIOExcepcion(String m)
+	public BattleshipIOException(String m)
 	{
 		message = m;
 	}

@@ -13,7 +13,7 @@ import model.exceptions.CoordinateAlreadyHitException;
 import model.exceptions.InvalidCoordinateException;
 import model.exceptions.NextToAnotherCraftException;
 import model.exceptions.OccupiedCoordinateException;
-import model.exceptions.io.BattleshipIOExcepcion;
+import model.exceptions.io.BattleshipIOException;
 
 public class PlayerFile implements IPlayer
 {
@@ -42,7 +42,7 @@ public class PlayerFile implements IPlayer
 	}
 
 	@Override
-	public void putCrafts(Board b) throws BattleshipIOExcepcion, InvalidCoordinateException, OccupiedCoordinateException, NextToAnotherCraftException
+	public void putCrafts(Board b) throws BattleshipIOException, InvalidCoordinateException, OccupiedCoordinateException, NextToAnotherCraftException
 	{
 		if(b==null)
 			throw new NullPointerException("Error! EL tablero pasado por argumento es nulo");
@@ -59,12 +59,12 @@ public class PlayerFile implements IPlayer
 				comandos=linea.split("\\s+");
 				
 				if(comandos[0]!="put" && comandos[0]!= "endput" && comandos[0]!="exit")
-					throw new BattleshipIOExcepcion("Error! Comando desconocido");
+					throw new BattleshipIOException("Error! Comando desconocido");
 				
 				if(comandos[0]=="put")				//Poner Barco
 				{
 							if(comandos.length < 5 || comandos.length > 6) // comandos de 5 a 6 parámetros [ put Type Orientation c1 c2 (c3) ]
-								throw new BattleshipIOExcepcion("Error! La Cantidad de Parámetros no es Correcta");
+								throw new BattleshipIOException("Error! La Cantidad de Parámetros no es Correcta");
 							int coords[]= {};
 							
 						
@@ -74,7 +74,7 @@ public class PlayerFile implements IPlayer
 							}
 							catch(IllegalArgumentException e)
 							{
-								throw new BattleshipIOExcepcion("Error! Orientación Desconocida");
+								throw new BattleshipIOException("Error! Orientación Desconocida");
 							}
 							
 							try
@@ -95,7 +95,7 @@ public class PlayerFile implements IPlayer
 							}
 							catch(NumberFormatException e)
 							{
-								throw new BattleshipIOExcepcion("Error! Alguna de las coordenadas no son números");
+								throw new BattleshipIOException("Error! Alguna de las coordenadas no son números");
 							}
 							
 					}
@@ -103,7 +103,7 @@ public class PlayerFile implements IPlayer
 			}
 			catch(IOException e)
 			{
-				throw new BattleshipIOExcepcion("Error! No se ha podido acceder al archivo");
+				throw new BattleshipIOException("Error! No se ha podido acceder al archivo");
 			}
 			
 		}while(linea != null && comandos[0]!= "endput" && comandos[0]!= "exit");
@@ -112,7 +112,7 @@ public class PlayerFile implements IPlayer
 	}
 
 	@Override
-	public Coordinate nextShoot(Board b) throws BattleshipIOExcepcion, InvalidCoordinateException, CoordinateAlreadyHitException 
+	public Coordinate nextShoot(Board b) throws BattleshipIOException, InvalidCoordinateException, CoordinateAlreadyHitException 
 	{	
 		String linea;
 		String comandos[];
@@ -127,13 +127,13 @@ public class PlayerFile implements IPlayer
 		}
 		catch(IOException e)
 		{
-			throw new BattleshipIOExcepcion("Error! No se ha podido acceder al archivo");
+			throw new BattleshipIOException("Error! No se ha podido acceder al archivo");
 		}
 		
 		if(comandos[0]!="shoot" || comandos[0]!="exit")
-			throw new BattleshipIOExcepcion("Error! Comando Desconocido");
+			throw new BattleshipIOException("Error! Comando Desconocido");
 		if(comandos.length < 3 || comandos.length > 4)
-			throw new BattleshipIOExcepcion("Error! La Cantidad de Parámetros no es Correcta");
+			throw new BattleshipIOException("Error! La Cantidad de Parámetros no es Correcta");
 		
 		try
 		{
@@ -145,7 +145,7 @@ public class PlayerFile implements IPlayer
 		}
 		catch(NumberFormatException e)
 		{
-			throw new BattleshipIOExcepcion("Error! Alguna de las coordenadas no son números");
+			throw new BattleshipIOException("Error! Alguna de las coordenadas no son números");
 		}
 		usada = CoordinateFactory.createCoordinate(coords);
 		b.hit(usada);										//Hiteamos con la coord

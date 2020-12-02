@@ -1,7 +1,6 @@
 package model.io;
 
-import java.io.ObjectOutputStream.PutField;
-import java.sql.Time;
+
 import java.util.Random;
 
 import model.Board;
@@ -11,11 +10,8 @@ import model.Craft;
 import model.CraftFactory;
 import model.Orientation;
 import model.aircraft.Board3D;
-import model.exceptions.CoordinateAlreadyHitException;
-import model.exceptions.InvalidCoordinateException;
-import model.exceptions.NextToAnotherCraftException;
-import model.exceptions.OccupiedCoordinateException;
-import model.exceptions.io.BattleshipIOExcepcion;
+import model.exceptions.*;
+import model.exceptions.io.BattleshipIOException;
 
 public class PlayerRandom implements IPlayer
 {
@@ -86,7 +82,7 @@ public class PlayerRandom implements IPlayer
 		}
 	}
 	@Override
-	public Coordinate nextShoot(Board b) throws BattleshipIOExcepcion, InvalidCoordinateException, CoordinateAlreadyHitException 
+	public Coordinate nextShoot(Board b) throws BattleshipIOException, InvalidCoordinateException, CoordinateAlreadyHitException 
 	{
 		Coordinate c = genRandomCoordinate(b, 0);
 		
