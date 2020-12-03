@@ -30,7 +30,7 @@ public class PlayerFile implements IPlayer
 	
 	public BufferedReader getBufferReader() 
 	{
-		return new BufferedReader(br);
+		return br;
 	}
 	
 	@Override
@@ -58,14 +58,14 @@ public class PlayerFile implements IPlayer
 				linea = br.readLine();
 				comandos=linea.split("\\s+");
 				
-				if(comandos[0]!="put" && comandos[0]!= "endput" && comandos[0]!="exit")
-					throw new BattleshipIOException("Error! Comando desconocido");
+				if(!comandos[0].equals("put") && !comandos[0].equals("endput") && !comandos[0].equals("exit"))
+					throw new BattleshipIOException("Error! Comando desconocido"+" "+comandos[0]);
 				
-				if(comandos[0]=="put")				//Poner Barco
+				if(comandos[0].equals("put"))				//Poner Barco
 				{
 							if(comandos.length < 5 || comandos.length > 6) // comandos de 5 a 6 parámetros [ put Type Orientation c1 c2 (c3) ]
 								throw new BattleshipIOException("Error! La Cantidad de Parámetros no es Correcta");
-							int coords[]= {};
+							int[] coords = {-99,-99,-99};
 							
 						
 							try 
@@ -81,7 +81,7 @@ public class PlayerFile implements IPlayer
 							{
 								for(int i = 3 ; i < comandos.length ; i++)	// a partir del 4º comando metemos las coords
 								{
-									coords[i] = Integer.parseInt(comandos[i]);		
+									coords[i-3] = Integer.parseInt(comandos[i]);		
 									
 								}
 								Coordinate posicion = CoordinateFactory.createCoordinate(coords);
@@ -106,7 +106,7 @@ public class PlayerFile implements IPlayer
 				throw new BattleshipIOException("Error! No se ha podido acceder al archivo");
 			}
 			
-		}while(linea != null && comandos[0]!= "endput" && comandos[0]!= "exit");
+		}while(linea != null && !comandos[0].equals("endput") && !comandos[0].equals("exit"));
 		
 		
 	}
@@ -115,40 +115,47 @@ public class PlayerFile implements IPlayer
 	public Coordinate nextShoot(Board b) throws BattleshipIOException, InvalidCoordinateException, CoordinateAlreadyHitException 
 	{	
 		String linea;
-		String comandos[];
-		int coords[]= {};
+		String comandos[]=null;
+		int coords[]= {-99,-99,-99};
 		BufferedReader br = getBufferReader();
 		Coordinate usada=null;
 		
 		try									//Lee línea y separa en comandos
 		{
-			linea = br.readLine();			
-			comandos=linea.split("\\s+");
+			linea = br.readLine();	
+			if(linea!=null)
+				comandos=linea.split("\\s+");
+			
 		}
 		catch(IOException e)
 		{
 			throw new BattleshipIOException("Error! No se ha podido acceder al archivo");
 		}
-		
-		if(comandos[0]!="shoot" || comandos[0]!="exit")
-			throw new BattleshipIOException("Error! Comando Desconocido");
-		if(comandos.length < 3 || comandos.length > 4)
-			throw new BattleshipIOException("Error! La Cantidad de Parámetros no es Correcta");
-		
-		try
+		if(comandos!=null)
 		{
-			for(int i = 1 ; i < comandos.length ; i++)	// a partir del 2º comando metemos las coords
+			if(!comandos[0].equals("shoot") && !comandos[0].equals("exit"))
+				throw new BattleshipIOException("Error! Comando Desconocido");
+			if(!comandos[0].equals("exit") && comandos != null)
 			{
-				coords[i] = Integer.parseInt(comandos[i]);		
-			
+				if(comandos.length < 3 || comandos.length > 4)
+					throw new BattleshipIOException("Error! La Cantidad de Parámetros no es Correcta");
+
+				try
+				{
+					for(int i = 1 ; i < comandos.length ; i++)	// a partir del 2º comando metemos las coords
+					{
+						coords[i-1] = Integer.parseInt(comandos[i]);		
+
+					}
+				}
+				catch(NumberFormatException e)
+				{
+					throw new BattleshipIOException("Error! Alguna de las coordenadas no son números");
+				}
+				usada = CoordinateFactory.createCoordinate(coords);
+				b.hit(usada);										//Hiteamos con la coord
 			}
 		}
-		catch(NumberFormatException e)
-		{
-			throw new BattleshipIOException("Error! Alguna de las coordenadas no son números");
-		}
-		usada = CoordinateFactory.createCoordinate(coords);
-		b.hit(usada);										//Hiteamos con la coord
 		
 		return usada;
 		

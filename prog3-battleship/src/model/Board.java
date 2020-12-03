@@ -293,6 +293,7 @@ public abstract class Board {
 		
 		if(getDestroyedCrafts()==getNumCrafts())
 			destruidos=true;
+		
 		return destruidos;
 		
 	}

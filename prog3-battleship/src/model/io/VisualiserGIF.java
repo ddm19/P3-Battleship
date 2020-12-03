@@ -9,12 +9,12 @@ import model.exceptions.io.BattleshipIOException;
 import model.io.gif.AnimatedGIF;
 import model.io.gif.FrameGIF;
 
-public class VisualiserGif implements IVisualiser
+public class VisualiserGIF implements IVisualiser
 {
 	private AnimatedGIF agif;
 	private Game game;
 	
-	public VisualiserGif(Game g) 
+	public VisualiserGIF(Game g) 
 	{
 		if(g==null)
 			throw new NullPointerException("Error! Se ha recibido un Game nulo");
@@ -74,8 +74,8 @@ public class VisualiserGif implements IVisualiser
 	@Override
 	public void show()  
 	{
-		String b1 = game.getboard1().show(false);		// Tableros en forma de cadena
-		String b2 = game.getboard2().show(false);
+		String b1 = game.getBoard1().show(false);		// Tableros en forma de cadena
+		String b2 = game.getBoard2().show(false);
 		
 		FrameGIF frame = new FrameGIF(b1.length(), b1.split("\n").length*2+1);	// Creo un nuevo frame con el tamaño del string b1 de ancho y 2*( Nº Saltos en b1)+1
 		

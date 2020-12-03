@@ -9,7 +9,7 @@ import model.exceptions.io.BattleshipIOException;
 
 public class PlayerFactory 
 {
-	IPlayer createPlayer (String name, String s) throws BattleshipIOException
+	public static IPlayer createPlayer (String name, String s) throws BattleshipIOException
 	{
 		IPlayer player = null;
 		

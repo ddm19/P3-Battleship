@@ -4,14 +4,14 @@ import model.Game;
 
 public class VisualiserFactory 
 {
-	IVisualiser createVisualiser(String n, Game g)
+	public static IVisualiser createVisualiser(String n, Game g)
 	{
 		IVisualiser visualiser=null;
 		
 		if(n == "Console")
 			visualiser = new VisualiserConsole(g);
 		else if (n == "GIF")
-			visualiser = new VisualiserGif(g);
+			visualiser = new VisualiserGIF(g);
 		
 		return visualiser;
 	}
