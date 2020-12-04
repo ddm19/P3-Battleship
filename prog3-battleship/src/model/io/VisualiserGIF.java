@@ -5,9 +5,11 @@ import java.io.File;
 
 import model.Board;
 import model.Game;
+import model.aircraft.Board3D;
 import model.exceptions.io.BattleshipIOException;
 import model.io.gif.AnimatedGIF;
 import model.io.gif.FrameGIF;
+import model.ship.Board2D;
 
 public class VisualiserGIF implements IVisualiser
 {
@@ -22,52 +24,65 @@ public class VisualiserGIF implements IVisualiser
 		agif = new AnimatedGIF();
 	}
 
-	private void SacaFrames (String b,FrameGIF frame)	// Coloca los frames adecuados según los símbolos de b (String de show de Board)
+	private void SacaFrames (String b,FrameGIF frame,int sitio)	// Coloca los frames adecuados según los símbolos de b (String de show de Board)
 	{
 		char novisto = Board.NOTSEEN_SYMBOL;
 		char agua = Board.WATER_SYMBOL;
 		char hit = Board.HIT_SYMBOL;
 		char separator = Board.BOARD_SEPARATOR;
-		int fila = 0;
+		
+		int columna = 0;
+		int fila = sitio;
 		
 		for(int i = 0; i<b.length() ; i++)
 		{
-			if( b.charAt(i) == novisto)	//gris claro
-			{
-				try {
-					frame.printSquare(i, fila, Color.LIGHT_GRAY);
-				} catch (BattleshipIOException e) {
-					throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+				if( b.charAt(i) == novisto)	//Gris claro
+				{
+					try {
+						frame.printSquare(columna, fila, Color.LIGHT_GRAY);
+					} catch (BattleshipIOException e) {
+						throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+					}
 				}
-			}
-			else if (b.charAt(i) == agua)	//azul
-			{
-				try {
-					frame.printSquare(i, fila, Color.BLUE);
-				} catch (BattleshipIOException e) {
-					throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+				else if (b.charAt(i) == agua)	//azul
+				{
+					try {
+						frame.printSquare(columna, fila, Color.BLUE);
+					} catch (BattleshipIOException e) {
+						throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+					}
 				}
-			}
-			else if (b.charAt(i) == hit)	//rojo
-			{
-				try {
-					frame.printSquare(i, fila, Color.RED);
-				} catch (BattleshipIOException e) {
-					throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+				else if (b.charAt(i) == hit)	//rojo
+				{
+					try {
+						frame.printSquare(columna, fila, Color.RED);
+					} catch (BattleshipIOException e) {
+						throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+					}
 				}
-			}
-			else if (b.charAt(i) == separator) 	// Naranja
-			{
-				try {
-					frame.printSquare(i, fila, Color.ORANGE);
-				} catch (BattleshipIOException e) {
-					throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+				else if (b.charAt(i) == separator) 	// Naranja
+				{
+					try {
+						frame.printSquare(columna, fila, Color.ORANGE);
+					} catch (BattleshipIOException e) {
+						throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+					}
 				}
-			}
-			else // Salto de línea '\n'
-			{
-				fila++;
-			}
+				else if (b.charAt(i) == '\n')// Salto de línea '\n'
+				{
+					fila++;
+					columna=0;
+				}
+				else	//Destruidos
+				{
+					try {
+						frame.printSquare(columna, fila, Color.RED);
+					} catch (BattleshipIOException e) {
+						throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
+					}
+				}
+			if(b.charAt(i) !='\n' )
+				columna++;
 		}
 	}
 	
@@ -76,17 +91,31 @@ public class VisualiserGIF implements IVisualiser
 	{
 		String b1 = game.getBoard1().show(false);		// Tableros en forma de cadena
 		String b2 = game.getBoard2().show(false);
+		int tam = game.getBoard1().getSize();
+		int tamx=0,tamy=0;
+		FrameGIF frame=null;
 		
-		FrameGIF frame = new FrameGIF(b1.length(), b1.split("\n").length*2+1);	// Creo un nuevo frame con el tamaño del string b1 de ancho y 2*( Nº Saltos en b1)+1
+		if(game.getBoard1() instanceof Board3D)
+		{
+			tamx = tam*tam+tam-1;
+			tamy = tam*2+1;
+		}
+		else if(game.getBoard1() instanceof Board2D)
+		{
+			tamx = tam;
+			tamy = tam*2+1;
+		}
+		frame = new FrameGIF(tamx, tamy);	// Creo un nuevo frame con el tamaño del string b1 de ancho y 2*( Nº Saltos en b1)+1
+
 		
-		SacaFrames(b1, frame);	// IMprimo b1
-		for(int i = 0 ; i<b1.length() ; i++)	// Espacios Grises 
+		SacaFrames(b1, frame,0);	// IMprimo b1
+		for(int i = 0 ; i<tamx ; i++)	// Espacios Grises 
 			try {
-				frame.printSquare(i, b1.split("\n").length+1, Color.LIGHT_GRAY);
+				frame.printSquare(i, tam, Color.DARK_GRAY);
 			} catch (BattleshipIOException e) {
 				throw new RuntimeException("Error! Algo ha salido mal en GIF Show");
 			}
-		SacaFrames(b2, frame);	// IMprimo b2
+		SacaFrames(b2, frame,tam+1);	// IMprimo b2
 		try {
 			agif.addFrame(frame);		// Añado el Frame
 		} catch (BattleshipIOException e) {
