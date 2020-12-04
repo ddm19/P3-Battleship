@@ -36,7 +36,7 @@ public class PlayerFile implements IPlayer
 	@Override
 	public String getName() //throws BattleshipIOExcepcion
 	{
-		String nombre = name+"("+getClass()+")";
+		String nombre = name+" ("+getClass().getSimpleName()+")";
 		
 		return nombre;
 	}
@@ -47,7 +47,7 @@ public class PlayerFile implements IPlayer
 		if(b==null)
 			throw new NullPointerException("Error! EL tablero pasado por argumento es nulo");
 		
-		String comandos[];
+		String comandos[]=null;
 		String linea;
 		Craft nave;
 		BufferedReader br = getBufferReader();
@@ -56,49 +56,57 @@ public class PlayerFile implements IPlayer
 			try
 			{
 				linea = br.readLine();
-				comandos=linea.split("\\s+");
-				
-				if(!comandos[0].equals("put") && !comandos[0].equals("endput") && !comandos[0].equals("exit"))
-					throw new BattleshipIOException("Error! Comando desconocido"+" "+comandos[0]);
-				
-				if(comandos[0].equals("put"))				//Poner Barco
+				if(linea!=null)
 				{
-							if(comandos.length < 5 || comandos.length > 6) // comandos de 5 a 6 parámetros [ put Type Orientation c1 c2 (c3) ]
-								throw new BattleshipIOException("Error! La Cantidad de Parámetros no es Correcta");
-							int[] coords = {-99,-99,-99};
+
+					comandos=linea.split("\\s+");
+					
+					if(!comandos[0].equals("put") && !comandos[0].equals("endput") && !comandos[0].equals("exit"))
+						throw new BattleshipIOException("Error! Comando desconocido"+" "+comandos[0]);
+					
+					if(comandos[0].equals("put"))				//Poner Barco
+					{
+								if(comandos.length < 5 || comandos.length > 6) // comandos de 5 a 6 parámetros [ put Type Orientation c1 c2 (c3) ]
+									throw new BattleshipIOException("Error! La Cantidad de Parámetros no es Correcta");
+								int[] coords;
+								if(comandos.length == 6)
+									coords = new int[3];
+								else
+									coords = new int[2];
 							
-						
-							try 
-							{
-								 nave = CraftFactory.createCraft(comandos[1],Orientation.valueOf(comandos[2]));//Creo nave con "Type" y Orientation
-							}
-							catch(IllegalArgumentException e)
-							{
-								throw new BattleshipIOException("Error! Orientación Desconocida");
-							}
-							
-							try
-							{
-								for(int i = 3 ; i < comandos.length ; i++)	// a partir del 4º comando metemos las coords
+								try 
 								{
-									coords[i-3] = Integer.parseInt(comandos[i]);		
+									 nave = CraftFactory.createCraft(comandos[1],Orientation.valueOf(comandos[2]));//Creo nave con "Type" y Orientation
+								}
+								catch(IllegalArgumentException e)
+								{
+									throw new BattleshipIOException("Error! Orientación Desconocida");
+								}
+								
+								try
+								{
+									for(int i = 3 ; i < comandos.length ; i++)	// a partir del 4º comando metemos las coords
+									{
+										coords[i-3] = Integer.parseInt(comandos[i]);		
+										
+									}
+									Coordinate posicion = CoordinateFactory.createCoordinate(coords);
+									
+										b.addCraft(nave,posicion);
+									
+									
+										
+									
 									
 								}
-								Coordinate posicion = CoordinateFactory.createCoordinate(coords);
+								catch(NumberFormatException e)
+								{
+									throw new BattleshipIOException("Error! Alguna de las coordenadas no son números");
+								}
 								
-									b.addCraft(nave,posicion);
-								
-								
-									
-								
-								
-							}
-							catch(NumberFormatException e)
-							{
-								throw new BattleshipIOException("Error! Alguna de las coordenadas no son números");
-							}
-							
-					}
+						}
+					
+				}
 				
 			}
 			catch(IOException e)
@@ -116,7 +124,7 @@ public class PlayerFile implements IPlayer
 	{	
 		String linea;
 		String comandos[]=null;
-		int coords[]= {-99,-99,-99};
+		int coords[];
 		BufferedReader br = getBufferReader();
 		Coordinate usada=null;
 		
@@ -133,6 +141,12 @@ public class PlayerFile implements IPlayer
 		}
 		if(comandos!=null)
 		{
+
+			if(comandos.length == 4)
+				coords = new int[3];
+			else
+				coords = new int[2];
+			
 			if(!comandos[0].equals("shoot") && !comandos[0].equals("exit"))
 				throw new BattleshipIOException("Error! Comando Desconocido");
 			if(!comandos[0].equals("exit") && comandos != null)
@@ -152,6 +166,7 @@ public class PlayerFile implements IPlayer
 				{
 					throw new BattleshipIOException("Error! Alguna de las coordenadas no son números");
 				}
+				
 				usada = CoordinateFactory.createCoordinate(coords);
 				b.hit(usada);										//Hiteamos con la coord
 			}

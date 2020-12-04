@@ -1,6 +1,7 @@
 package model.io;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 import model.Board;
@@ -27,7 +28,7 @@ public class PlayerRandom implements IPlayer
 	@Override
 	public String getName() //throws BattleshipIOExcepcion
 	{
-		String nombre = name+"("+getClass()+")";
+		String nombre = name+" ("+getClass().getSimpleName()+")";
 		
 		return nombre;
 	}
@@ -51,23 +52,29 @@ public class PlayerRandom implements IPlayer
 	}
 	private Orientation getRandomOrientation()
 	{
-		Random r = new Random (System.currentTimeMillis());
-		Orientation o = Orientation.values()[r.nextInt(4)];
+		Orientation o = Orientation.values()[genRandomInt(0, Orientation.values().length)];
 		
 		return o;
 	}
-	private void ColoBarco(String type,Board b) throws InvalidCoordinateException, OccupiedCoordinateException, NextToAnotherCraftException
+	private void ColoBarco(String type,Board b)
 	{
 		Craft nave = CraftFactory.createCraft(type,getRandomOrientation());	// Creo Nave del tipo con Orientación aleatoria
 		int i = 0;
-		do 
-		{
-			i++;
-			
-		}while(!b.addCraft(nave,genRandomCoordinate(b, Craft.BOUNDING_SQUARE_SIZE)) && i<100);	// La intento colocar en rndm coord hasta que pueda o intentado 100 veces
+		boolean puesto = false;
+		
+			do 
+			{	try
+				{
+					puesto = b.addCraft(nave,genRandomCoordinate(b, Craft.BOUNDING_SQUARE_SIZE));
+				}catch(InvalidCoordinateException | NextToAnotherCraftException | OccupiedCoordinateException e)
+				{
+					i++;
+				}
+			}while(!puesto && i<=100);	// La intento colocar en rndm coord hasta que pueda o intentado 100 veces
+		
 	}
 	@Override
-	public void putCrafts(Board b) throws InvalidCoordinateException, OccupiedCoordinateException, NextToAnotherCraftException 
+	public void putCrafts(Board b)  
 	{
 		ColoBarco("Battleship",b);
 		ColoBarco("Carrier",b);

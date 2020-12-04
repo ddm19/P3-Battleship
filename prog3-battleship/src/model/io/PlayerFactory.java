@@ -27,9 +27,18 @@ public class PlayerFactory
 				throw new BattleshipIOException("Error! No se ha podido abrir el archivo" );
 			}
 		}
-		else if(Long.parseLong(s)>0)
+		else 
 		{
-			player = new PlayerRandom(name, Long.parseLong(s));
+			
+			try
+			{
+				if(Long.parseLong(s)>0)
+					player = new PlayerRandom(name, Long.parseLong(s));
+			}
+			catch(NumberFormatException e)
+			{
+				player=null;
+			}
 		}
 		
 		return player;

@@ -16,7 +16,7 @@ public class Game
 	private Board board1,b;
 	private static String NOINICIADO = "=== GAME NOT STARTED ===\n";
 	private static String ENCURSO = "=== ONGOING GAME ===\n";
-	private static String TERMINADO = "=== ONGOING GAME ===\n";
+	private static String TERMINADO = "=== GAME ENDED ===\n";
 	private static String SEPARADOR = "==================================\n";
 	
 	public Game(Board b1,Board b2 , IPlayer p1, IPlayer p2)
@@ -192,15 +192,15 @@ public class Game
 			sb.append(ENCURSO);
 		
 		sb.append(SEPARADOR);
-		sb.append(getPlayer1().getName());	//Jugador1
+		sb.append(getPlayer1().getName()+'\n');	//Jugador1
 		sb.append(SEPARADOR);
-		sb.append(getBoard1());				//Tablero1
+		sb.append(getBoard1().show(false)+'\n');				//Tablero1
 		sb.append(SEPARADOR);
-		sb.append(getPlayer2().getName());	//Jugador2
+		sb.append(getPlayer2().getName() +'\n');	//Jugador2
 		sb.append(SEPARADOR);
-		sb.append(getBoard2());				//Tablero2
+		sb.append(getBoard2().show(false)+'\n');				//Tablero2
 		sb.append(SEPARADOR);
-		sb.append("Number of shots: "+shootCounter);
+		sb.append("Number of shots: "+shootCounter+'\n');
 		
 		if(gameEnded())
 			sb.append("\n"+getPlayerLastShoot().getName()+" wins");
