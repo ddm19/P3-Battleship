@@ -4,8 +4,20 @@ package model;
 import model.aircraft.*;
 import model.ship.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating Craft objects.
+ */
 public class CraftFactory 
 {
+	
+	/**
+	 * Creates a new Craft object.
+	 *
+	 * @param type the type
+	 * @param o the o
+	 * @return the craft
+	 */
 	public static Craft createCraft(String type, Orientation o)
 	{
 		Craft nave=null;

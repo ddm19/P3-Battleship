@@ -15,11 +15,25 @@ import model.exceptions.NextToAnotherCraftException;
 import model.exceptions.OccupiedCoordinateException;
 import model.exceptions.io.BattleshipIOException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PlayerFile.
+ */
 public class PlayerFile implements IPlayer
 {
+	
+	/** The br. */
 	private BufferedReader br;
+	
+	/** The name. */
 	private String name;
 	
+	/**
+	 * Instantiates a new player file.
+	 *
+	 * @param name the name
+	 * @param br the br
+	 */
 	public PlayerFile(String name,BufferedReader br)
 	{
 		if(br==null)
@@ -28,11 +42,21 @@ public class PlayerFile implements IPlayer
 		this.name=name;
 	}
 	
+	/**
+	 * Gets the buffer reader.
+	 *
+	 * @return the buffer reader
+	 */
 	public BufferedReader getBufferReader() 
 	{
 		return br;
 	}
 	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	@Override
 	public String getName() //throws BattleshipIOExcepcion
 	{
@@ -41,6 +65,15 @@ public class PlayerFile implements IPlayer
 		return nombre;
 	}
 
+	/**
+	 * Put crafts.
+	 *
+	 * @param b the b
+	 * @throws BattleshipIOException the battleship IO exception
+	 * @throws InvalidCoordinateException the invalid coordinate exception
+	 * @throws OccupiedCoordinateException the occupied coordinate exception
+	 * @throws NextToAnotherCraftException the next to another craft exception
+	 */
 	@Override
 	public void putCrafts(Board b) throws BattleshipIOException, InvalidCoordinateException, OccupiedCoordinateException, NextToAnotherCraftException
 	{
@@ -119,6 +152,15 @@ public class PlayerFile implements IPlayer
 		
 	}
 
+	/**
+	 * Next shoot.
+	 *
+	 * @param b the b
+	 * @return the coordinate
+	 * @throws BattleshipIOException the battleship IO exception
+	 * @throws InvalidCoordinateException the invalid coordinate exception
+	 * @throws CoordinateAlreadyHitException the coordinate already hit exception
+	 */
 	@Override
 	public Coordinate nextShoot(Board b) throws BattleshipIOException, InvalidCoordinateException, CoordinateAlreadyHitException 
 	{	

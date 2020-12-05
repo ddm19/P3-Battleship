@@ -11,11 +11,24 @@ import model.io.gif.AnimatedGIF;
 import model.io.gif.FrameGIF;
 import model.ship.Board2D;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VisualiserGIF.
+ */
 public class VisualiserGIF implements IVisualiser
 {
+	
+	/** The agif. */
 	private AnimatedGIF agif;
+	
+	/** The game. */
 	private Game game;
 	
+	/**
+	 * Instantiates a new visualiser GIF.
+	 *
+	 * @param g the g
+	 */
 	public VisualiserGIF(Game g) 
 	{
 		if(g==null)
@@ -24,6 +37,13 @@ public class VisualiserGIF implements IVisualiser
 		agif = new AnimatedGIF();
 	}
 
+	/**
+	 * Saca frames.
+	 *
+	 * @param b the b
+	 * @param frame the frame
+	 * @param sitio the sitio
+	 */
 	private void SacaFrames (String b,FrameGIF frame,int sitio)	// Coloca los frames adecuados según los símbolos de b (String de show de Board)
 	{
 		char novisto = Board.NOTSEEN_SYMBOL;
@@ -86,6 +106,9 @@ public class VisualiserGIF implements IVisualiser
 		}
 	}
 	
+	/**
+	 * Show.
+	 */
 	@Override
 	public void show()  
 	{
@@ -124,6 +147,9 @@ public class VisualiserGIF implements IVisualiser
 
 	}
 
+	/**
+	 * Close.
+	 */
 	@Override
 	public void close() 
 	{
