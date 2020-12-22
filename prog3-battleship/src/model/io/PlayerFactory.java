@@ -45,7 +45,7 @@ public class PlayerFactory
 			
 			try
 			{
-				if(Long.parseLong(s)>0)
+				
 					player = new PlayerRandom(name, Long.parseLong(s));
 			}
 			catch(NumberFormatException e)
