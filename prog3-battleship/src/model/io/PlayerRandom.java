@@ -63,6 +63,7 @@ public class PlayerRandom implements IPlayer
 	 */
 	private int genRandomInt(int min, int max) 
 	{ 
+		//System.err.println("GEN");
 	    return random.nextInt(max-min)+min;
 	}
 	
@@ -84,7 +85,7 @@ public class PlayerRandom implements IPlayer
 		{
 			c = CoordinateFactory.createCoordinate( genRandomInt(0-offset, b.getSize()) , genRandomInt(0-offset, b.getSize()) );	// Coordinate2D
 		}
-			
+			//System.err.println(c);
 		return c;
 	}
 	
@@ -95,6 +96,7 @@ public class PlayerRandom implements IPlayer
 	 */
 	private Orientation getRandomOrientation()
 	{
+		//System.err.println("ORIENTATION");
 		Orientation o = Orientation.values()[genRandomInt(0, Orientation.values().length)];
 		
 		return o;
@@ -112,18 +114,17 @@ public class PlayerRandom implements IPlayer
 		int i = 0;
 		Coordinate c = null;
 		boolean puesto = false;
-		c = genRandomCoordinate(b, Craft.BOUNDING_SQUARE_SIZE);
 			do 
-			{	try
-				{
-					puesto = b.addCraft(nave,c);
-				}catch(InvalidCoordinateException | NextToAnotherCraftException | OccupiedCoordinateException e)
+			{	
+				try
 				{
 					c = genRandomCoordinate(b, Craft.BOUNDING_SQUARE_SIZE);
 					i++;
-				}
-			}while(!puesto && i<=100);	// La intento colocar en rndm coord hasta que pueda o intentado 100 veces
-		
+					b.addCraft(nave,c);
+					puesto = true;
+				}catch(InvalidCoordinateException | NextToAnotherCraftException | OccupiedCoordinateException e) {}
+			}while(!puesto && i<100);	// La intento colocar en rndm coord hasta que pueda o intentado 100 veces
+		//System.err.println("YESYESYESYES");
 	}
 	
 	/**
@@ -138,6 +139,7 @@ public class PlayerRandom implements IPlayer
 		ColoBarco("Carrier",b);
 		ColoBarco("Cruiser",b);		//Añado 1 barco de cada tipo 2D
 		ColoBarco("Destroyer",b);
+		
 		
 		if(b instanceof Board3D)
 		{
