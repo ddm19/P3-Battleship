@@ -5,23 +5,50 @@ import java.util.TreeSet;
 
 import model.exceptions.score.EmptyRankingException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Ranking.
+ *
+ * @param <ScoreType> the generic type
+ */
 public class Ranking<ScoreType extends Score<?>> 
 {
+	
+	/** The score set. */
 	private SortedSet<ScoreType> scoreSet;
 	
-	 public Ranking ()
+	 /**
+ 	 * Instantiates a new ranking.
+ 	 */
+ 	public Ranking ()
 	 {
 		 scoreSet = new TreeSet<>();
 	 }
 	 
-	 public void addScore(ScoreType st)
+	 /**
+ 	 * Adds the score.
+ 	 *
+ 	 * @param st the st
+ 	 */
+ 	public void addScore(ScoreType st)
 	 {
 		 scoreSet.add(st);
 	 }
 	 
-	 public SortedSet<ScoreType> getSortedRanking(){ return scoreSet; }
+	 /**
+ 	 * Gets the sorted ranking.
+ 	 *
+ 	 * @return the sorted ranking
+ 	 */
+ 	public SortedSet<ScoreType> getSortedRanking(){ return scoreSet; }
 	 
-	 public ScoreType getWinner() throws EmptyRankingException
+	 /**
+ 	 * Gets the winner.
+ 	 *
+ 	 * @return the winner
+ 	 * @throws EmptyRankingException the empty ranking exception
+ 	 */
+ 	public ScoreType getWinner() throws EmptyRankingException
 	 {
 		 if(scoreSet.isEmpty())
 			 throw new EmptyRankingException("Error! El ranking está vacío");

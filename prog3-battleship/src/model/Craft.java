@@ -60,6 +60,11 @@ public abstract class Craft {
 		return c; 
 	}
 	
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	public abstract int getValue();
 	/**
 	 * Sets the position.

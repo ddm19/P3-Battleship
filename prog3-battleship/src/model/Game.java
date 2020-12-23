@@ -31,12 +31,16 @@ public class Game
 	/** The b. */
 	private Board board1,b;
 	
+	/** The hit score 1. */
 	private HitScore hitScore1;
 	
+	/** The hit score 2. */
 	private HitScore hitScore2;
 
+	/** The craft score 1. */
 	private CraftScore craftScore1;
 
+	/** The craft score 2. */
 	private CraftScore craftScore2;
 	
 	/** The noiniciado. */
@@ -48,12 +52,15 @@ public class Game
 	/** The terminado. */
 	private static String TERMINADO = "=== GAME ENDED ===\n";
 	
+	/** The hitscore. */
 	private static String HITSCORE = "HitScore: ";
 	
+	/** The craftscore. */
 	private static String CRAFTSCORE = "CraftScore: ";
 	/** The separador. */
 	private static String SEPARADOR = "==================================\n";
 	
+	/** The scoreseparator. */
 	private static String SCORESEPARATOR = "--------------";
 	/**
 	 * Instantiates a new game.
@@ -111,18 +118,38 @@ public class Game
 	}
 
 
+	/**
+	 * Gets the hit score player 1.
+	 *
+	 * @return the hit score player 1
+	 */
 	public HitScore getHitScorePlayer1() {
 		return hitScore1;
 	}
 
+	/**
+	 * Gets the hit score player 2.
+	 *
+	 * @return the hit score player 2
+	 */
 	public HitScore getHitScorePlayer2() {
 		return hitScore2;
 	}
 
+	/**
+	 * Gets the craft score player 1.
+	 *
+	 * @return the craft score player 1
+	 */
 	public CraftScore getCraftScorePlayer1() {
 		return craftScore1;
 	}
 
+	/**
+	 * Gets the craft score player 2.
+	 *
+	 * @return the craft score player 2
+	 */
 	public CraftScore getCraftScorePlayer2() {
 		return craftScore2;
 	}
@@ -193,9 +220,7 @@ public class Game
 	/**
 	 * Shoot.
 	 *
-	 * @param p the p
-	 * @param b the b
-	 * @param next the next
+	 * @param c the c
 	 * @return true, if successful
 	 */
 	
@@ -230,6 +255,11 @@ public class Game
 		
 	}
 	
+	/**
+	 * Gets the score info.
+	 *
+	 * @return the score info
+	 */
 	public String getScoreInfo()
 	{
 		StringBuilder sb = new StringBuilder();
@@ -245,6 +275,14 @@ public class Game
 		return sb.toString();
 	}
 	
+	/**
+	 * Shoot.
+	 *
+	 * @param p the p
+	 * @param b the b
+	 * @param next the next
+	 * @return true, if successful
+	 */
 	private boolean shoot(IPlayer p,Board b,int next)
 	{
 		

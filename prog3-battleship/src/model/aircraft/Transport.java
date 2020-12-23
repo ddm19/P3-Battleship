@@ -12,6 +12,7 @@ public class Transport extends Aircraft
 	/** The symbol. */
 	private static char symbol = '⇋';
 	
+	/** The value. */
 	private static int value = 18;
 	/** The name. */
 	private static String name = "Transport";
@@ -54,6 +55,11 @@ public class Transport extends Aircraft
 		    };
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	@Override
 	public int getValue() {
 		// TODO Auto-generated method stub

@@ -12,6 +12,7 @@ public class Bomber extends Aircraft
 	/** The symbol. */
 	private static char symbol = '⇶';
 	
+	/** The value. */
 	private static int value = 15;
 	
 	/** The name. */
@@ -55,6 +56,11 @@ public class Bomber extends Aircraft
 		    };
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	@Override
 	public int getValue() 
 	{

@@ -26,6 +26,7 @@ public class PlayerFile implements IPlayer
 	/** The br. */
 	private BufferedReader br;
 	
+	/** The last shot status. */
 	private CellStatus lastShotStatus;
 
 	/** The name. */
@@ -223,9 +224,19 @@ public class PlayerFile implements IPlayer
 		
 	}
 
+	/**
+	 * Gets the last shot status.
+	 *
+	 * @return the last shot status
+	 */
 	@Override
 	public CellStatus getLastShotStatus() { return lastShotStatus; }
 	
+	/**
+	 * Sets the last shot status.
+	 *
+	 * @param lastShotStatus the new last shot status
+	 */
 	public void setLastShotStatus(CellStatus lastShotStatus) { this.lastShotStatus = lastShotStatus; }
 	
 }

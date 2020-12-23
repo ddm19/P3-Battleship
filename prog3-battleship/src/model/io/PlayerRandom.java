@@ -32,6 +32,7 @@ public class PlayerRandom implements IPlayer
 	/** The name. */
 	private String name;
 	
+	/** The last shot status. */
 	private CellStatus lastShotStatus;
 	
 	
@@ -179,9 +180,19 @@ public class PlayerRandom implements IPlayer
 		return c;
 	}
 
+	/**
+	 * Gets the last shot status.
+	 *
+	 * @return the last shot status
+	 */
 	@Override
 	public CellStatus getLastShotStatus() { return lastShotStatus; }
 	
+	/**
+	 * Sets the last shot status.
+	 *
+	 * @param lastShotStatus the new last shot status
+	 */
 	public void setLastShotStatus(CellStatus lastShotStatus) { this.lastShotStatus = lastShotStatus; }
 	
 }

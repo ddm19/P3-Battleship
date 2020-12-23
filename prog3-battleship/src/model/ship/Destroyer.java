@@ -12,6 +12,7 @@ public class Destroyer extends Ship
 	/** The symbol. */
 	private static char symbol = 'Ω';
 	
+	/** The value. */
 	private static int value = 3;
 	/** The name. */
 	private static String name = "Destroyer";
@@ -58,6 +59,11 @@ public class Destroyer extends Ship
 		      		};
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	@Override
 	public int getValue() {
 		// TODO Auto-generated method stub
