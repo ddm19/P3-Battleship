@@ -23,8 +23,18 @@ import model.ship.Cruiser;
 import model.ship.Destroyer;
 import model.ship.Ship;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainP3.
+ */
 public class MainP3 {
 
+	/**
+	 * Prints the absolute positions.
+	 *
+	 * @param crf the crf
+	 * @param pos the pos
+	 */
 	private static void printAbsolutePositions(Craft crf, Coordinate pos) {
 		System.out.print("Absolute positions: ");
 		for (Coordinate c: crf.getAbsolutePositions(pos)) {
@@ -33,6 +43,12 @@ public class MainP3 {
 		System.out.println("");
 	}
 	
+	/**
+	 * Prints the neighbouring positions.
+	 *
+	 * @param crf the crf
+	 * @param board the board
+	 */
 	private static void printNeighbouringPositions(Craft crf, Board board)  {
 		System.out.print("Neighbouring positions: ");
 		for (Coordinate c: board.getNeighborhood(crf)) {
@@ -41,6 +57,9 @@ public class MainP3 {
 		System.out.println("");
 	}
 	
+	/**
+	 * Main board 2 D.
+	 */
 	private static void mainBoard2D()  {
 		Board2D board2d = null;
 		System.out.println("=== Board 2D ===");
@@ -243,6 +262,9 @@ public class MainP3 {
 		System.out.println(board2d.show(true));
 	}
 	
+	/**
+	 * Main board 3 D.
+	 */
 	private static void mainBoard3D()  {
 		Board3D board3d = null;
 		System.out.println("=== Board 3D ===");
@@ -367,6 +389,11 @@ public class MainP3 {
 		
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args)  {
 		mainBoard2D();
 		System.out.println("\n%-%-%-%-%-%-%-%-%-%-%-%-%-%-%\n");

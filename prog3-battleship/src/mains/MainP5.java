@@ -13,8 +13,17 @@ import model.score.CraftScore;
 import model.score.HitScore;
 import model.score.Ranking;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainP5.
+ */
 public class MainP5 {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		
 		Ranking<HitScore> hitRanking = new Ranking<>();

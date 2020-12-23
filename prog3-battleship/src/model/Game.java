@@ -217,13 +217,13 @@ public class Game
 		return terminado;
 	}
 	
+	
+	
 	/**
-	 * Shoot.
+	 * Actualiza score.
 	 *
 	 * @param c the c
-	 * @return true, if successful
 	 */
-	
 	private void actualizaScore(Coordinate c)
 	{
 		CellStatus lastShotStatus = null;

@@ -19,8 +19,15 @@ import model.io.VisualiserGIF;
 import model.ship.Board2D;
 import model.ship.Coordinate2D;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainP4.
+ */
 public class MainP4 {
 
+	/**
+	 * Main board 3 D player file.
+	 */
 	private static void mainBoard3DPlayerFile() {
 		IPlayer player1 = null;
 		IPlayer player2 = null;
@@ -84,6 +91,11 @@ public class MainP4 {
 	}
 	
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		mainBoard3DPlayerFile();
 		
