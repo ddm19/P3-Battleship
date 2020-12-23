@@ -6,6 +6,8 @@ import model.exceptions.InvalidCoordinateException;
 import model.exceptions.io.BattleshipIOException;
 import model.io.IPlayer;
 import model.io.IVisualiser;
+import model.score.CraftScore;
+import model.score.HitScore;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,6 +31,14 @@ public class Game
 	/** The b. */
 	private Board board1,b;
 	
+	private HitScore hitScore1;
+	
+	private HitScore hitScore2;
+
+	private CraftScore craftScore1;
+
+	private CraftScore craftScore2;
+	
 	/** The noiniciado. */
 	private static String NOINICIADO = "=== GAME NOT STARTED ===\n";
 	
@@ -38,9 +48,13 @@ public class Game
 	/** The terminado. */
 	private static String TERMINADO = "=== GAME ENDED ===\n";
 	
+	private static String HITSCORE = "HitScore: ";
+	
+	private static String CRAFTSCORE = "CraftScore: ";
 	/** The separador. */
 	private static String SEPARADOR = "==================================\n";
 	
+	private static String SCORESEPARATOR = "--------------";
 	/**
 	 * Instantiates a new game.
 	 *
@@ -65,6 +79,11 @@ public class Game
 		player2 = p2;
 		gameStarted = false;
 		vacio=false;
+		hitScore1 = new HitScore(p1);
+		hitScore2 = new HitScore(p2);
+		craftScore1 = new CraftScore(p1);
+		craftScore2 = new CraftScore(p2);
+		
 	}
 	
 	
@@ -92,6 +111,21 @@ public class Game
 	}
 
 
+	public HitScore getHitScorePlayer1() {
+		return hitScore1;
+	}
+
+	public HitScore getHitScorePlayer2() {
+		return hitScore2;
+	}
+
+	public CraftScore getCraftScorePlayer1() {
+		return craftScore1;
+	}
+
+	public CraftScore getCraftScorePlayer2() {
+		return craftScore2;
+	}
 
 	/**
 	 * Gets the board 1.
@@ -164,6 +198,53 @@ public class Game
 	 * @param next the next
 	 * @return true, if successful
 	 */
+	
+	private void actualizaScore(Coordinate c)
+	{
+		CellStatus lastShotStatus = null;
+		HitScore hitscore = null;
+		CraftScore craftscore = null;
+		Board b = null;
+		
+		if(nextToShoot == 1)
+		{
+			lastShotStatus=getPlayer1().getLastShotStatus();	// Recogemos status
+			hitscore = getHitScorePlayer1();							//hitscore
+			craftscore = getCraftScorePlayer1();						// craft score
+			b = getBoard2();									// board donde disparó
+			
+		}
+		else if (nextToShoot == 2)
+		{
+			lastShotStatus = getPlayer2().getLastShotStatus();	//Recogemos status
+			hitscore = getHitScorePlayer2();							//hitscore
+			craftscore = getCraftScorePlayer2();						// craft score
+			b = getBoard1();									// board donde disparó
+		}
+		if(nextToShoot != 0)
+			hitscore.score(lastShotStatus);	//hitscore++
+			
+		if(lastShotStatus == CellStatus.DESTROYED)			// si destruido obtenemos barco y actualizamos craftscore
+			craftscore.score(b.getCraft(c));
+			
+		
+	}
+	
+	public String getScoreInfo()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Player 1\n");
+		sb.append(HITSCORE+getHitScorePlayer1().toString()+"\n");
+		sb.append(CRAFTSCORE+getCraftScorePlayer1().toString()+"\n");
+		sb.append(SCORESEPARATOR+"\n");
+		sb.append("Player 2\n");
+		sb.append(HITSCORE+getHitScorePlayer2().toString()+"\n");
+		sb.append(CRAFTSCORE+getCraftScorePlayer2().toString());
+		
+		return sb.toString();
+	}
+	
 	private boolean shoot(IPlayer p,Board b,int next)
 	{
 		
@@ -173,7 +254,9 @@ public class Game
 			try 
 			{
 				c=p.nextShoot(b);
+				actualizaScore(c);		// llamo antes de NextToShoot para actualizar según el player del último disparo
 				nextToShoot = next;		//Disparo ok pasa playerx,+1disparados
+				
 				if(c!=null)
 				{
 					shooteado = true;
@@ -275,6 +358,7 @@ public class Game
 		}
 		visualiser.close();
 	}
+	
 	
 	/**
 	 * To string.

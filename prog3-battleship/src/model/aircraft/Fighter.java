@@ -12,6 +12,7 @@ public class Fighter extends Aircraft
 	/** The symbol. */
 	private static char symbol = '⇄';
 	
+	private static int value = 10;
 	/** The name. */
 	private static String name = "Fighter";
 			
@@ -51,5 +52,11 @@ public class Fighter extends Aircraft
 				0, 0, 0, 0, 0
 		      }
 		    };
+	}
+
+	@Override
+	public int getValue() {
+		// TODO Auto-generated method stub
+		return value;
 	}
 }

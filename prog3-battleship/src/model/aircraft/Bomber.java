@@ -12,6 +12,8 @@ public class Bomber extends Aircraft
 	/** The symbol. */
 	private static char symbol = '⇶';
 	
+	private static int value = 15;
+	
 	/** The name. */
 	private static String name = "Bomber";
 			
@@ -51,5 +53,11 @@ public class Bomber extends Aircraft
 				0, 0, 1, 1, 0
 		      }
 		    };
+	}
+
+	@Override
+	public int getValue() 
+	{
+		return value;
 	}
 }

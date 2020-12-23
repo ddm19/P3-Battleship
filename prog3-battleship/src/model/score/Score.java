@@ -5,6 +5,7 @@ import model.io.IPlayer;
 public abstract class Score<T> implements Comparable<Score<T>>
 {   
 	protected int score;
+	
 	private IPlayer player ;
 	
 	public IPlayer getPlayer() { return player; }
@@ -19,6 +20,8 @@ public abstract class Score<T> implements Comparable<Score<T>>
 	
 	public int getScore() { return score;}
 	
+	public void setScore(int score) { this.score += score;}
+
 	
 	public int compareTo(Score<T> other)
 	{
@@ -46,6 +49,8 @@ public abstract class Score<T> implements Comparable<Score<T>>
 	}
 	
 	public abstract void score(T sc);
+
+	
 
 
 }

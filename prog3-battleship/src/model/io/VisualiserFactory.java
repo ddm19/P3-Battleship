@@ -22,8 +22,8 @@ public class VisualiserFactory
 		IVisualiser visualiser = null;
 		try 
 		{
-			tipovis = Class.forName(n);
-			visualiser = (IVisualiser) tipovis.getConstructor(tipovis).newInstance(g);
+			tipovis = Class.forName("model.io.Visualiser"+n);
+			visualiser = (IVisualiser) tipovis.getConstructor(Game.class).newInstance(g);
 		}
 		catch (Throwable e) 
 		{

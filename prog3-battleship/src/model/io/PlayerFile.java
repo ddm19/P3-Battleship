@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import model.Board;
+import model.CellStatus;
 import model.Coordinate;
 import model.CoordinateFactory;
 import model.Craft;
@@ -25,6 +26,8 @@ public class PlayerFile implements IPlayer
 	/** The br. */
 	private BufferedReader br;
 	
+	private CellStatus lastShotStatus;
+
 	/** The name. */
 	private String name;
 	
@@ -190,7 +193,7 @@ public class PlayerFile implements IPlayer
 				coords = new int[2];
 			
 			if(!comandos[0].equals("shoot") && !comandos[0].equals("exit"))
-				throw new BattleshipIOException("Error! Comando Desconocido");
+				throw new BattleshipIOException("Error! Comando Desconocido : "+comandos[0]);
 			if(!comandos[0].equals("exit") && comandos != null)
 			{
 				if(comandos.length < 3 || comandos.length > 4)
@@ -210,12 +213,19 @@ public class PlayerFile implements IPlayer
 				}
 				
 				usada = CoordinateFactory.createCoordinate(coords);
-				b.hit(usada);										//Hiteamos con la coord
+				setLastShotStatus(b.hit(usada));										//Hiteamos con la coord y almacenamos en lastShotStatus
 			}
+			
 		}
-		
+		if(usada == null)			// Si no se han hecho disparos
+			setLastShotStatus(null);
 		return usada;
 		
 	}
+
+	@Override
+	public CellStatus getLastShotStatus() { return lastShotStatus; }
+	
+	public void setLastShotStatus(CellStatus lastShotStatus) { this.lastShotStatus = lastShotStatus; }
 	
 }

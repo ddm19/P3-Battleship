@@ -12,6 +12,7 @@ public class Carrier extends Ship
 	/** The symbol. */
 	private static char symbol = '®';
 	
+	private static int value = 8;
 	/** The name. */
 	private static String name = "Carrier";
 			
@@ -57,5 +58,11 @@ public class Carrier extends Ship
 		      		};
 		
 		
+	}
+
+	@Override
+	public int getValue() {
+		// TODO Auto-generated method stub
+		return value;
 	}
 }

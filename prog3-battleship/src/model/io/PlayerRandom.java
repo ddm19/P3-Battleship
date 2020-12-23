@@ -1,19 +1,26 @@
 package model.io;
 
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 import model.Board;
+import model.CellStatus;
 import model.Coordinate;
 import model.CoordinateFactory;
 import model.Craft;
 import model.CraftFactory;
 import model.Orientation;
 import model.aircraft.Board3D;
+import model.aircraft.Bomber;
+import model.aircraft.Fighter;
+import model.aircraft.Transport;
 import model.exceptions.*;
 import model.exceptions.io.BattleshipIOException;
+import model.ship.Battleship;
 import model.ship.Board2D;
+import model.ship.Carrier;
+import model.ship.Cruiser;
+import model.ship.Destroyer;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,6 +32,10 @@ public class PlayerRandom implements IPlayer
 	/** The name. */
 	private String name;
 	
+	private CellStatus lastShotStatus;
+	
+	
+
 	/** The random. */
 	private Random random;
 	
@@ -135,17 +146,17 @@ public class PlayerRandom implements IPlayer
 	@Override
 	public void putCrafts(Board b)  
 	{
-		ColoBarco("Battleship",b);
-		ColoBarco("Carrier",b);
-		ColoBarco("Cruiser",b);		//Añado 1 barco de cada tipo 2D
-		ColoBarco("Destroyer",b);
+		ColoBarco("ship."+Battleship.class.getSimpleName(),b);
+		ColoBarco("ship."+Carrier.class.getSimpleName(),b);
+		ColoBarco("ship."+Cruiser.class.getSimpleName(),b);		//Añado 1 barco de cada tipo 2D
+		ColoBarco("ship."+Destroyer.class.getSimpleName(),b);
 		
 		
 		if(b instanceof Board3D)
 		{
-			ColoBarco("Bomber",b);
-			ColoBarco("Fighter",b);	//Añado 1 barco de cada tipo 3D
-			ColoBarco("Transport",b);
+			ColoBarco("aircraft."+Bomber.class.getSimpleName(),b);
+			ColoBarco("aircraft."+Fighter.class.getSimpleName(),b);	//Añado 1 barco de cada tipo 3D
+			ColoBarco("aircraft."+Transport.class.getSimpleName(),b);
 		}
 	}
 	
@@ -163,9 +174,14 @@ public class PlayerRandom implements IPlayer
 	{
 		Coordinate c = genRandomCoordinate(b, 0);
 		
-		b.hit(c);
+		setLastShotStatus(b.hit(c));
 		
 		return c;
 	}
+
+	@Override
+	public CellStatus getLastShotStatus() { return lastShotStatus; }
+	
+	public void setLastShotStatus(CellStatus lastShotStatus) { this.lastShotStatus = lastShotStatus; }
 	
 }

@@ -51,13 +51,16 @@ public abstract class Craft {
 	 *
 	 * @return the position
 	 */
-	public Coordinate getPosition() { 
+	public Coordinate getPosition() 
+	{ 
 		Coordinate c = null;
 	
-	if(position!=null)
-		c = position.copy();
-		return c; }
-
+		if(position!=null)
+			c = position.copy();
+		return c; 
+	}
+	
+	public abstract int getValue();
 	/**
 	 * Sets the position.
 	 *

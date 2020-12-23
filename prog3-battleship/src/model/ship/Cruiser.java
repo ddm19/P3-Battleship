@@ -12,6 +12,7 @@ public class Cruiser extends Ship
 	/** The symbol. */
 	private static char symbol = 'Ø';
 	
+	private static int value = 5;
 	/** The name. */
 	private static String name = "Cruiser";
 			
@@ -54,5 +55,11 @@ public class Cruiser extends Ship
 		      			0, 0, 0, 0, 0
 		      		}
 		      		};
+	}
+
+	@Override
+	public int getValue() {
+		// TODO Auto-generated method stub
+		return value;
 	}
 }

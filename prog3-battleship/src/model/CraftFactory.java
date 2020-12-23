@@ -21,8 +21,8 @@ public class CraftFactory
 		Craft nave = null;
 		try 
 		{
-			tiponave = Class.forName(type);
-			nave = (Craft) tiponave.getConstructor(tiponave).newInstance(o);
+			tiponave = Class.forName("model."+type);
+			nave = (Craft) tiponave.getConstructor(Orientation.class).newInstance(o);
 		}
 		catch (Throwable e) 
 		{
